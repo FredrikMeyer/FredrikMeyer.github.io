@@ -24,7 +24,6 @@ twitter_username: fredrikmeyer
 github_username:  fredrikmeyer
 
 # Build settings
-markdown: redcarpet
 plugins:
   - jekyll-feed
 
