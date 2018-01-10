@@ -19,7 +19,7 @@ The problem is NP-hard.
 
 A näive greedy algorithm is this: sort the items according to some heuristic, then choose items one by one until the capacity is reached.
 
-You can for example choose the lightest elements first (hoping that taking many elements will optimize the problem), or you can take the most valuable problems first.
+You can for example choose the lightest elements first (hoping that taking many elements will optimize the problem), or you can take the most valuable items first.
 
 The greedy algorithms are fast. The only real work done is sorting the list of items, which is done in \\( \mathscr O (n \log n) \\) time. They are however not optimal.
 
@@ -70,4 +70,10 @@ This means that if the optimistic estimation in one branch is *less* than that o
 One naïve choice for an estimation function is to take the sum of all the remaining values $\sum_{\text{not chosen}} v_i$. This works and can give some optimization.
 
 However, a slightly better estimation function can be achieved by using *linear relaxation*. To compute the optimal value, instead of requiring the $x_i$'s to be either 0 or 1, we allow them to be any number in the interval $[0,1]$.
+
+To compute an optimistic estimation, we sort the remaining variables according to their value per weight ratio $v_i/w_i$, filling the knapsack one by one until there is no more room. Then we put in a fraction of the next, filling the knapsack. This gives a better optimistic estimation than the sum above.
+
+## Search strategies
+
+
 
