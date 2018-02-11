@@ -43,3 +43,10 @@ ghci> :t (==)
 (==) :: Eq a => a -> a -> Bool
 ```
 
+Can convert string to values:
+```haskell
+ghci> read "5" :: Int
+5
+ghci> read "6" :: Float
+6.0
+```

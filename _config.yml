@@ -16,7 +16,7 @@
 title: Fredrik Meyer
 # email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Will probably at some point containt technical mathematical or tech
+  Will probably at some point contain technical mathematical or tech
   posts.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
