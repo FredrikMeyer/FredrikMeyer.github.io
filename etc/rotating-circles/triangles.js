@@ -13,13 +13,13 @@ function draw() {
     background(0);
     push()
     translate(0.5*(width-rectWidth*figSize), 0.5*(height-rectHeight*figSize));
-    drawTriangleOfFigures(figSize, rectWidth, rectHeight);
+    drawRectangleOfFigures(figSize, rectWidth, rectHeight);
     
     push();
     translate(rectWidth*figSize/2, rectHeight*figSize/2);
     rotate(angle);
     translate(-rectWidth*figSize/2, -rectHeight*figSize/2);
-    drawTriangleOfFigures(figSize, rectWidth, rectHeight);
+    drawRectangleOfFigures(figSize, rectWidth, rectHeight);
     pop();
     
     pop();
