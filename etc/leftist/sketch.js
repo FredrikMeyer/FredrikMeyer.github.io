@@ -46,8 +46,6 @@ function submitValue() {
             value: numbers[0]
         };
 
-        console.log(numbers);
-
         numbers
             .slice(1)
             .forEach(n => addNode(n));
