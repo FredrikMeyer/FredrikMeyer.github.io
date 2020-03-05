@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "The knapsack problem"
+published: false
 date:   2017-12-31 17:09:05 +0100
 categories: mathematics discrete-optimization knapsack
 ---
