@@ -1,0 +1,103 @@
+---
+layout: post
+status: publish
+published: true
+title: Beregne volum av kuler
+author:
+  display_name: FredrikMeyer
+  login: FredrikMeyer
+  email: hrmeyer@gmail.com
+  url: ''
+author_login: FredrikMeyer
+author_email: hrmeyer@gmail.com
+wordpress_id: 157
+wordpress_url: http://cube.fredrikmeyer.net/?p=157
+date: '2011-11-18 20:39:10 +0100'
+date_gmt: '2011-11-18 19:39:10 +0100'
+categories:
+- Smalltalk
+tags: []
+comments:
+- id: 525
+  author: Daniel
+  author_email: daniel@daniel.priv.no
+  author_url: http://my.opera.com/daniel/
+  date: '2011-11-18 22:01:30 +0100'
+  date_gmt: '2011-11-18 21:01:30 +0100'
+  content: Det er vanlig &aring; forkorte promptet til &laquo;$&raquo; i eksempler.
+    &laquo;Fredriks-MacBook-Air:Python Fredrik$ &raquo; blir litt overkill.
+- id: 528
+  author: Olav
+  author_email: olavandreas@gmail.com
+  author_url: ''
+  date: '2011-11-20 02:22:27 +0100'
+  date_gmt: '2011-11-20 01:22:27 +0100'
+  content: P&aring; tur hjem fra byen med nattbussen, med promille begrenser jeg meg
+    til &aring; si at grafene var fine... Uten at jeg forst&aring;r at en sirkel omskrevet
+    av et kvadrat tar 1/4 av tilfeldige treff?
+- id: 529
+  author: FredrikMeyer
+  author_email: hrmeyer@gmail.com
+  author_url: ''
+  date: '2011-11-20 02:25:42 +0100'
+  date_gmt: '2011-11-20 01:25:42 +0100'
+  content: Nei. Om A er arealet til sirkelen, vil sirkelen ta A/4 av alle tilfeldige
+    treff, fordi arealet til sirkelen tar opp A fjerdedeler av det totale arealet
+    (som er 4).
+---
+<p>I <a href="http://en.wikipedia.org/wiki/Monte_Carlo_methods">anvendelser</a> av matematikk har man ofte behov for &aring; regne ut volumer av avanserte geometriske objekter. Som regel g&aring;r det ikke an &aring; regne ut slikt for h&aring;nd eller med pene formler, s&aring; matematikere jobber mye med &aring; finne algoritmer som datamaskiner kan utf&oslash;re for &aring; finne en tiln&aelig;rmet l&oslash;sning.</p>
+<p>Tenk deg at du har f&aring;tt i oppdrag &aring; regne ut arealet av en <a href="http://en.wikipedia.org/wiki/N-sphere">kule i n dimensjoner</a>. F&oslash;rst av alt - hva i all verden mener vi med dette? En sirkel i planet med radius 1 kan beskrives som alle punkter $$(x,y)$$ i planet slik at &nbsp;$$x^2+y^2=1$$ (hvorfor? hint: Pythagoras' setning). P&aring; samme m&aring;te kan vi beskrive en kule som alle punkter $$(x,y,z)$$ i rommet slik at $$x^2+y^2+z^2=1$$.</p>
+<p>Vi generaliserer, og definerer en &nbsp;kule i n dimensjoner til &aring; v&aelig;re alle punkter $$(x_1,x_2,\ldots,x_n)$$ i $$\mathbb{R}^n$$ slik at $$\sum_{i=1}^n x_i^2 = 1$$.</p>
+<p>Men la oss n&aring; si at du har lyst &aring; regne ut arealet av en sirkel i planet. Vi kan anta sirkelen har radius 1 og er plassert i origo. Tegn s&aring; et kvadrat rundt sirkelen, med diagonaler med lengde 1, som p&aring; figuren under:</p>
+<p>[caption id="attachment_159" align="aligncenter" width="300"]<a href="http://cube.fredrikmeyer.net/wp-content/uploads/MonteCarloSquare.png"><img class="size-medium wp-image-159" title="Monte Carlo-firkant" src="http://cube.fredrikmeyer.net/wp-content/uploads/MonteCarloSquare-300x300.png" alt="" width="300" height="300" /></a> Enhetssirkelen p&aring; innsiden av en firkant.[/caption]</p>
+<p style="text-align: left;">Siden firkanten har sidelengder p&aring; 2, har den arel 4. Her kommer trikset: kast masse "dart-piler" (eller punkter, om du vil) p&aring; firkanten slik at de havner tilfeldig spredt omkring. Kall arealet til sirkelen for A. Da vil A/4 av dart-pilene havne p&aring; innsiden av sirkelen. &nbsp;Dermed, for &aring; f&aring; arealet av sirkelen, ganger vi dette forholdet med 4.</p>
+<p style="text-align: left;">Fordelen med denne metoden er at det er veldig lett &aring; sjekke om et punkt er p&aring; innsiden av sirkelen eller ikke. Vi sjekker bare om $$x^2+y^2 < 1$$ eller ikke. Om $$x^2+y^2 < 1$$, s&aring; er punktet $$(x,y)$$ p&aring; innsiden av sirkelen. Dette generaliserer lett til flere dimensjoner enn 2 og til andre figurer enn sirkler.</p>
+<p>Jeg har testet denne metoden p&aring; sirkler i Python. Jeg laget et program som jeg kalte for areal_kule.py. Vi tester for sirkelen og med 1000 dart-piler:</p>
+<pre>Fredriks-MacBook-Air:Python Fredrik$ python areal_kule.py 2 1000
+Tilfeldig volum: 3.196
+Ekte volum: 3.14159265359
+Error: 0.0544073464102
+</pre>
+<p>Ikke veldig imponerende, kanskje - vi kastet tross alt 1000 dart-piler! Vi tester med &egrave;n million dart-piler i stedet (dette tok litt under 10 sekunder p&aring; min maskin):</p>
+<pre>Fredriks-MacBook-Air:Python Fredrik$ python areal_kule.py 2 1000000
+Tilfeldig volum: 3.144456
+Ekte volum: 3.14159265359
+Error: 0.00286334641021</pre>
+<p>N&aring; ble resultatet en god del bedre. La oss pr&oslash;ve &aring; regne ut volumet av en kule:</p>
+<pre>Fredriks-MacBook-Air:Python Fredrik$ python areal_kule.py 3 1000000
+Tilfeldig volum: 4.184968
+Ekte volum: 4.18879020479
+Error: 0.00382220478639</pre>
+<p>Ikke d&aring;rlig! Denne metoden kalles for <a href="http://en.wikipedia.org/wiki/Monte_Carlo_integration">Monte Carlo-integrasjon</a>, og det viser seg at slike "tilfeldige" metoder ofte er mer effektivt i h&oslash;yere dimensjoner.</p>
+<p>N&aring;r vi f&oslash;rst snakker om sirkler, kan man lure p&aring; hva som skjer med volumet til sf&aelig;rer n&aring;r vi &oslash;ker dimensjonene. Resultatet er litt kontraintuitivt:</p>
+<p>[caption id="attachment_162" align="aligncenter" width="300"]<a href="http://cube.fredrikmeyer.net/wp-content/uploads/radiussfarer.png"><img class="size-medium wp-image-162" title="Volum kuler" src="http://cube.fredrikmeyer.net/wp-content/uploads/radiussfarer-300x207.png" alt="" width="300" height="207" /></a> Volum kuler[/caption]</p>
+<p>Vi ser at volumet til kulene &oslash;ker fram til dimensjon 4, hvor det begynner &aring; falle. Faktisk g&aring;r kulevolumet i dimensjon n mot null n&aring;r n g&aring;r mot uendelig. Dette er fordi diagonallengden p&aring; kvadratet rundt kulen blir st&oslash;rre og st&oslash;rre etterhvert som n &oslash;ker.</p>
+<p>For ordens skyld, her er Python-programmet jeg brukte for &aring; regne ut volumene:</p>
+<pre>from random import random
+from math import pi, gamma, fabs
+import sys
+
+if len(sys.argv) == 1:
+    sys.exit("Skriv areal_kule d n. d dimensjon, n antall, std n=1000")
+if len(sys.argv) == 2:
+    d = int(sys.argv[1])
+    n = 1000
+if len(sys.argv) == 3:
+    d = int(sys.argv[1])
+    n = int(sys.argv[2])
+
+i = 1
+s = 0.
+cube_area = 2**d #area of cube in dimension d
+
+while i < n:
+    if (sum([random()**2 for j in range(d)])) < 1:
+        s += 1
+    i += 1
+
+random_area = (s/n)*cube_area
+true_volume = pi**(0.5*d)/gamma(0.5*(d+2))
+
+print "Tilfeldig volum: " + str(random_area)
+print "Ekte volum: " + str(true_volume)
+print "Error: " + str(fabs(random_area-true_volume))</pre>

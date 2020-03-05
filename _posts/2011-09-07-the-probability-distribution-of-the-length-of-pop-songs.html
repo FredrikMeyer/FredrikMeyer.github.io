@@ -1,0 +1,53 @@
+---
+layout: post
+status: publish
+published: true
+title: The probability distribution of the length of pop songs
+author:
+  display_name: FredrikMeyer
+  login: FredrikMeyer
+  email: hrmeyer@gmail.com
+  url: ''
+author_login: FredrikMeyer
+author_email: hrmeyer@gmail.com
+wordpress_id: 131
+wordpress_url: http://cube.fredrikmeyer.net/?p=131
+date: '2011-09-07 02:23:38 +0200'
+date_gmt: '2011-09-07 00:23:38 +0200'
+categories:
+- Uncategorized
+- Probability and statistics
+tags: []
+comments: []
+---
+<p>Taking a course in probability can be extremely fun if you try to apply some of acquired knowledge to real world data sets. Finding data types that are easy to gather and at the same time interesting is a problem in itself. By a flash of inspiration, I came to think of this incredible easy example: the length (in seconds) of pop songs.</p>
+<p>After a succesful Google search, I ended up with NRK's Spotify list "NRK mP3 - siste 400" and sampled the 42 first song lenghts. &nbsp;Using the Python function below, the lengths were converted to seconds:</p>
+<pre>def mintilsek(n):
+    min = floor(n)
+    s   = (n-min)*100
+    return int(round(min*60+s))</pre>
+<p>The sample data ended up as follows:</p>
+<pre>w = [52 241 223 231 225 242 263 222 200 220 238 213 210 213 210 183 321
+&nbsp;265 228 200 206 200 228 193 269 289 197 211 211 236 252 222 224 184
+232 198 207 220 178 192 258 192]</pre>
+<p>The natural question to ask is: Which <a href="http://en.wikipedia.org/wiki/Probability_distribution">distribution</a> does these numbers belong to? As so many real world populations distribute normally, the first thing I did was to plot the observed sample values in a normal <a href="http://en.wikipedia.org/wiki/Q-Q_plot">QQ-plot</a> (that is, normal quantiles on one axis, and sample quantiles on the other axis). I did that using the following <a href="http://www.r-project.org/">R</a> code:</p>
+<pre>> qqnorm(w); qqline(w)</pre>
+<p>Where w is the data set. The result is seen below:</p>
+<p><a href="http://cube.fredrikmeyer.net/wp-content/uploads/Rplot.jpg"><img class="aligncenter size-medium wp-image-134" title="QQ plot" src="http://cube.fredrikmeyer.net/wp-content/uploads/Rplot-300x300.jpg" alt="" width="300" height="300" /></a>The fit is not too bad, but there are noticable probability mass on the tails, so a probability distribution with heavier tails should be considered.</p>
+<p>Let us for the moment assume that the distrubution is normal. We can do a <a href="http://en.wikipedia.org/wiki/Maximum_likelihood">maximum likelihood estimation</a>, to estimate the parameters $$\mu,\sigma$$, the mean and <a href="http://en.wikipedia.org/wiki/Standard_deviation">standard deviation</a> respectively. R has (obviously) a function for this:</p>
+<pre>> fitdistr(w, "normal")
+      mean          sd    
+  223.785714    29.214751 
+ (  4.507934) (  3.187591)&nbsp;
+</pre>
+<p>That is, if we assume that the distribution is <a href="http://en.wikipedia.org/wiki/Normal_distribution">normal</a>, then a maximum likelihood estimate of the parameters tells us that the mean song length is 3:43 with a standard deviation of 29 seconds. That is, about 68% of all songs are between 3:14 and 4:12 minutes long.</p>
+<p>If we now however assume that the population has a <a href="http://en.wikipedia.org/wiki/Cauchy_distribution">Cauchy distribution</a>, which has heavier tails, then we get the following:</p>
+<pre>> fitdistr(w, "cauchy")
+    location      scale   
+  217.829335    15.684886 
+ (  3.897386) (  3.090949)
+</pre>
+<p>Since neither the mean nor the variance exists for a Cauchy distribution because of its heavy tails, these numbers are difficult to compare with the previous numbers. According to this, however, 50% of all pop songs have length less than 3:37 minutes.</p>
+<p>Finally: We know that for sufficiently large samples, the sample average $$\overline{X}$$ is approximately normal. Thus we can find an approximate confidence interval for the real median $$\mu$$ (page 386, <a href="http://www.amazon.com/Modern-Mathematical-Statistics-Applications-Devore/dp/0495118605">Devore &amp; Berk</a>). The <a href="http://en.wikipedia.org/wiki/Sample_mean_and_sample_covariance">sample mean</a> is $$223.8$$ and the <a href="http://en.wikipedia.org/wiki/Standard_deviation#Estimation">sample standard deviation</a> is $$29.6$$. Thus by the formula $$\overline{x} \pm z_{\alpha/2} \frac{s}{\sqrt{n}}$$ we find that a confidence interval for $$\mu$$ with approximately 95% confidence is &nbsp;$$(215, 233)$$.</p>
+<p><em>Conclusion</em>: Though I could, and maybe should, have written a lot more, it seems that assuming song lengths are normally distributed is a fair assumption, given that the data fit was nearly linear for values near the mean. (that is, if we ignore the "extremes", then the distribution is certainly "very" normal)</p>
+<p><strong>This proves that playing with statistics can be fun (as I have just been doing it for the last 3-4 hours).</strong></p>

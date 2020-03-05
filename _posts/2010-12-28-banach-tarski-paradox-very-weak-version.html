@@ -1,0 +1,28 @@
+---
+layout: post
+status: publish
+published: true
+title: Banach-Tarski paradox, very weak version
+author:
+  display_name: FredrikMeyer
+  login: FredrikMeyer
+  email: hrmeyer@gmail.com
+  url: ''
+author_login: FredrikMeyer
+author_email: hrmeyer@gmail.com
+wordpress_id: 7
+wordpress_url: http://cube.fredrikmeyer.net/?p=7
+date: '2010-12-28 03:32:16 +0100'
+date_gmt: '2010-12-28 03:32:16 +0100'
+categories:
+- Set Theory
+- Smalltalk
+tags: []
+comments: []
+---
+<p>I post this mainly to test the <a href="http://www.mathjax.org">MathJax</a> JavaScript on this blog (if you have by some paranoid reason turned off JavaScript, you will see only LaTeX code below). However, this post is not totally without substance. The usual <a href="http://en.wikipedia.org/wiki/Banach&ndash;Tarski_paradox">Banach-Tarski paradox</a> states that any two bounded subsets with non-empty interior A,B of $$\mathbb{R}^3$$, it is possible to partition A into finitely many pieces, move the pieces around using rotations only and end with a copy of B (possibly somewhere else). The proof is lengthy and involves the <a href="http://en.wikipedia.org/wiki/Axiom_of_choice">Axiom of Choice</a>. This should not foster any doubts about the Choice Axiom, however. It is possible to find paradoxical constructions without the Choice Axiom (without mentioning all its reasonable consequences). $$S^2$$ is paradoxical without Choice, by the way.&nbsp; Anyhow, I'm drifting away from the main topic of this post.</p>
+<p><strong>Very weak version of the Banach-Tarski paradox: </strong>Let $$S^1$$ be the usual unit circle in $$\mathbb{R}^2$$. Remove one point from from the circle (for example $$1$$), and call this punctured unit circle $$C$$. Then it is possible to find two subsets $$A,B$$ of $$C$$ such that after rotating $$B$$ to $$r(B)$$, we have $$A \cup r(B)=S^1$$.</p>
+<p><strong>Proof:</strong> The proof is short and easy. Identify the plane with $$\mathbb{C}$$ for convencience. Let $$C=S^1-\{1\}$$. Let $$B=\{ e^{in} | n \in \mathbb{N} \}$$ (we adopt the convention that $$0 \notin \mathbb{N}$$). &nbsp;Then $$B$$ is a proper (countable) infinite subset of $$C$$. Let $$A=C-B$$. We have $$C=A \cup B$$. Now, let $$r:\mathbb{C} \to \mathbb{C}$$ be the rotation $$z \mapsto ze^{-i}$$. Then $$r(B)=B \cup \{ 1 \}$$ and $$A \cup r(B)=S^1$$.</p>
+<p>The proof is easy to follow, but the technique is conceptually the same as the technique used to prove the strong version of the paradox. &nbsp;The technique is basically to find some infinite subset of $$C$$ that is regular enough to "almost rotate into itself" - with "almost" here meaning "all but finitely many points".</p>
+<p>Why is the above result interesting? My personal opinion is its conceptual carriage; it gives us the idea of how to prove stronger results such as the Banach Tarski-paradox. And also that mathematics is not always intuitive.</p>
+<p>I'll end this post with &nbsp;a link to my own undergrad project paper about the strong Banach-Tarski paradox (contains some minor typos, by the way). <a href="http://fredrikmeyer.net/div/BanachTarski.pdf">CLICK HERE</a>.</p>

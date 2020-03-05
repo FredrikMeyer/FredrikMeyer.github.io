@@ -1,0 +1,141 @@
+---
+layout: post
+status: publish
+published: true
+title: Mandelbrot-fraktaler
+author: Fredrik Meyer
+author_login: fredrikmeyer
+author_email: hrmeyer@gmail.com
+wordpress_id: 42
+wordpress_url: http://fredrikmeyer.net/?p=42
+date: '2016-11-06 21:23:46 +0100'
+date_gmt: '2016-11-06 20:23:46 +0100'
+categories:
+- Matematikk
+- Popularisering
+- Programmering
+tags: []
+comments: []
+---
+<p>Jeg&nbsp;tenker &aring; bruke denne bloggen til &aring; forklare&nbsp;forskjellige interessante ting jeg kommer over p&aring; en forst&aring;elig m&aring;te.&nbsp;I denne bloggposten vil jeg forklare&nbsp;<a href="https://en.wikipedia.org/wiki/Mandelbrot_set">Mandelbrot-fraktalen</a>. Underveis gir jeg lynintroduksjoner til komplekse tall og konvergente og divergente f&oslash;lger.</p>
+<h2>Komplekse &nbsp;tall</h2>
+<p>Fra barnsben av l&aelig;rer vi om&nbsp;<a href="https://en.wikipedia.org/wiki/Real_number">desimaltall</a>, og at disse ligger p&aring; en linje. Matematikere kaller disse tallene for de relle tallene, og vi kaller mengden av alle reelle tall for $ \mathbb R$ ("krittavle-R"). Du kan tenke p&aring; tallinja som en&nbsp;linje som er uendelig lang i begge retninger, hvor negative tall er til venstre og positive tall er til h&oslash;yre.</p>
+<p><a href="https://en.wikipedia.org/wiki/Complex_number">Komplekse tall</a> g&aring;r ikke bare i &eacute;n retning, men i to. De har alts&aring; b&aring;de en x- og en y-koordinat. Alle komplekse tall ligger i planet:</p>
+<p>[caption id="attachment_59" align="aligncenter" width="300"]<img class="size-medium wp-image-59" src="http://fredrikmeyer.net/wp-content/uploads/2016/11/cp-300x227.png" alt="Det komplekse planet. Hvert komplekse tall er gitt ved to koordinater." width="300" height="227" /> Det komplekse planet. Hvert komplekse tall er gitt ved to koordinater.[/caption]</p>
+<p>Over er et bilde av det komplekse planet. Hvert komplekse tall er gitt ved to koordinater: en realdel $ a$ og en imagin&aelig;rdel $ b$. Vi ser at tallene med imagin&aelig;rdel lik null (alts&aring; tallene med $ b=0$), er reelle tall. Alts&aring; er alle reelle tall en del av det komplekse planet, men vi har mange nye tall.</p>
+<p>Det er lett &aring; legge sammen komplekse tall. Om vi har to komplekse tall, legger vi bare sammen realdelene og imagin&aelig;rdelene hver for seg:</p>
+<p>$ (a+ib) + (c+id) = (a+c)+i(b+d)$</p>
+<p>Tenker vi oss litt om, er dette akkurat som vektoraddisjon:</p>
+<p>[caption id="attachment_60" align="aligncenter" width="300"]<img class="size-medium wp-image-60" src="http://fredrikmeyer.net/wp-content/uploads/2016/11/addition-300x182.png" alt="&Aring; legge sammen komplekse tall gj&oslash;res ved parallellogram-regelen." width="300" height="182" /> &Aring; legge sammen komplekse tall gj&oslash;res ved parallellogram-regelen.[/caption]</p>
+<p>P&aring; bildet over har vi summert tallene $ 1+i$ og $ 1.5+0.5i$.</p>
+<p>Vi kan ogs&aring; gange sammen komplekse tall. Dette er rett fram,&nbsp;bare at vi krever en ting: for komplekse tall krever vi at $ i^2=-1$. Den nye koordinaten vi innf&oslash;rer, fungerer som en&nbsp;kvadratrot for $ -1$ (husk at om $ x$ er et&nbsp;reelt tall, er alltid kvadratroten positiv. Komplekse tall oppf&oslash;rer seg annerledes):</p>
+<p>$ (a+ib)(c+id) = ac+ad i +bc i + bc i^2 = (ac-bc) + (ad+bc)i.$</p>
+<p>Det finnes ogs&aring; en geometrisk tolkning av multiplikasjon av komplekse tall, men det&nbsp;hopper vi over i denne runden (hvis du virkelig vil ha svaret: for &aring; gange sammen to komplekse tall, s&aring; ganger vi sammen lengdene til tallene og&nbsp;<em>legger sammen</em> vinklene).</p>
+<p>Alle komplekse tall har en&nbsp;<em>lengde</em>. Lengden til et komplekst tall er akkurat hva du tror det skal v&aelig;re, og hvis vi husker ungdomsskolepensumet, husker vi at vi kan regne ut lengen ved hjelp av Pythagoras' formel. Vi skriver $ |z|$ for lengden til tallet $ z$.</p>
+<p>$ |z| = \sqrt{a^2+b^2}.$</p>
+<p>Dette er de egenskapene til komplekse tall vi trenger for &aring; forst&aring; hvordan&nbsp;Mandelbrot-fraktalen er definert. Komplekse tall er et fascinerende felt, og det er mange flere ting jeg kunne sagt, men jeg har ingen planer om &aring; skrive bok akkurat n&aring;.</p>
+<p>Det viktigste &aring; huske er at de legges sammen koordinatvis, og at $ i^2=-1$. Fra dette f&oslash;lger alt det andre.</p>
+<h2>F&oslash;lger</h2>
+<p>La oss starte med et eksempel. Jeg gir deg to startverdier $ a_1 = 1$ og $ a_2=2$. S&aring; forteller jeg deg at du f&aring;r neste&nbsp;tall i f&oslash;lgen ved &aring; legge sammen de to forrige tallene. Dermed er $ a_3 = a_2 + a_1 = 2$. S&aring;nn kan vi fortsette, og generelt har vi at $ a_n = a_{n-1} + a_{n-2}$. De f&oslash;rste tallene vi f&aring;r er er</p>
+<p>$ 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144,...$</p>
+<p>Dette gir oss det som kalles en <em>f&oslash;lge</em>. En f&oslash;lge er ikke noe annet en uendelig lang rekke av tall (de kan godt v&aelig;re naturlige tall eller komplekse tall).&nbsp;Her er hvordan du kan lage disse tallene i Python:</p>
+<p>[python]L = [1,1]<br />
+for i in range(20):<br />
+    L.append(L[i]+L[i+1])</p>
+<p>L<br />
+>><br />
+[1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711][/python]</p>
+<p>Det vi ser er at at&nbsp;tallene vokser veldig raskt. Faktisk vokser de eksponensielt raskt (like raskt som en bakteriekultur med nok n&aelig;ring og plass), og asymptotisk som $ \varphi^n$, hvor $ \varphi=(1+\sqrt 5)/2$ er det gylne snitt.</p>
+<p>Denne f&oslash;lgen er ogs&aring; kjent som Fibonacci-f&oslash;lgen, og det er allerede skrevet masse om den. Se for eksempel <a href="https://en.wikipedia.org/wiki/Fibonacci_number">Wikipedia</a>.</p>
+<p>Dette var et eksempel p&aring; en&nbsp;<em>divergent</em> f&oslash;lge. Den vokser og vokser og g&aring;r ikke mot noe bestemt tall. Det er to m&aring;ter en f&oslash;lge en f&oslash;lge kan divergere p&aring;.&nbsp;Enten g&aring;r den mot uendelig, slik Fibonacci-f&oslash;lgen gjorde. Ellers kan den oscillere og aldri sl&aring; seg til ro. Et eksempel er $ a_n=(-1)^n$. Denne g&aring;r slik: 1, -1, 1, -1, ..., og sl&aring;r seg aldri til ro.</p>
+<p>Med dette vet vi nok om f&oslash;lger til &aring; introdusere Mandelbrot-mengden.</p>
+<h2>Mandelbrot</h2>
+<p>La $ f(z)=z^2+c$. Dette er alts&aring; en funksjon som f&oslash;rst kvadrerer et komplekst tall og s&aring; legger $ c$ til det. Geometrisk betyr dette at vi kvadrerer lengden til tallet og dobler vinkelen, og deretter flytter det med vektoren $ c$ &nbsp;bortover (vi kan alltid tenke p&aring; komplekse tall som b&aring;de tall og vektorer).</p>
+<p>For hvert komplekse tall $ c$ lager vi f&oslash;lgende f&oslash;lge: $ z_0=0$. Deretter er $ z_1=f(0)$. Og $ z_2=f(f(0))$. Generelt er $ z_n=f(z_{n-1})=f^{(n)}(0)$. Vi bruker alts&aring; funksjonen igjen og igjen p&aring; det forrige resultatet.</p>
+<p>Eksempel: la $ c=1$. Da er $ z_0=0$. Og $ z_1=0^2+1=1$. Og $ z_2 = f(f(0))=f(1)=1+1=2$. F&oslash;r du leser neste avsnitt, ser du hva neste tall i f&oslash;lgen&nbsp;blir?</p>
+<p>Vi regner ut $ z_3 = f(f(f(0))) = f(2) = 2^2+1=5$. Og $ z_4 = 5^2+1=26$. Og $ z_5 = 26^2+1= 677$. Dette vokser utrolig raskt. Allerede $ z_{10} \approx 10^{90}$, som er mye mer enn antall atomer i det observerbare universet.</p>
+<p>Hva skjer s&aring; hvis vi pr&oslash;ver med $ c=-1$ i stedet? Vi regner ut de f&oslash;rste tallene i Python slik:</p>
+<p>[python]def z(n):<br />
+    if n == 0:<br />
+        return 0<br />
+    else:<br />
+        return z(n-1)**2-1</p>
+<p>[z(i) for i in range(10)]<br />
+>><br />
+[0, -1, 0, -1, 0, -1, 0, -1, 0, -1][/python]</p>
+<p>N&aring; vokser ikke tallene, og vi ser at f&oslash;lgen alternerer mellom $ 0$ og $ -1$. Vi sier at f&oslash;lgen er <em>begrenset</em>.</p>
+<p>La oss pr&oslash;ve med et komplekst tall, for eksempel $ c = i$, alts&aring; roten til minus &eacute;n. Igjen kan vi bruke Python til &aring; gj&oslash;re utregningen for oss. Python har et&nbsp;bibliotek som gj&oslash;r at vi slipper &aring; implementere komplekse tall selv. S&aring; f&oslash;lgende kode virker:</p>
+<p>[python]<br />
+import cmath</p>
+<p>def z(n, c):<br />
+	if n == 0:<br />
+		return 0<br />
+	else:<br />
+		return z(n-1,c)**2 + c</p>
+<p>print([z(k,1j) for k in range(12)]</p>
+<p>>><br />
+[0, 1j, (-1+1j), -1j, (-1+1j), -1j, (-1+1j), -1j, (-1+1j), -1j, (-1+1j), -1j]<br />
+[/python]</p>
+<p>Igjen ser vi at vi f&aring;r noe som&nbsp;ikke vokser ut av all kontroll. Det er interessant &aring; sp&oslash;rre seg for hvilke $ c$ i det komplekse planet vil denne f&oslash;lgen vokse ut av all kontroll, og for hvilke $ c$ vil den holde seg begrenset?</p>
+<p>Det er akkurat d&eacute;t Mandelbrot-mengden er: det er mengden av $ c$-verdier i planet slik at f&oslash;lgen over er begrenset. S&aring; langt vet vi at $ -1$ og $ i$ er med i Mandelbrot-mengden, men ikke $ 1$.</p>
+<h2>Implementering av Mandelbrot i Processing</h2>
+<p><a href="https://en.wikipedia.org/wiki/Processing_(programming_language)">Processing</a> er et programmeringsspr&aring;k som er bygd p&aring; Java, men med enklere syntaks. Form&aring;let er at det skal v&aelig;re enkelt &aring; komme i gang, og da spesielt med grafikk. Siden det er bygd p&aring; Java, har vi tilgang til alle de vanlige Java-bibliotekene, og syntaksen er veldig lik.</p>
+<p>Siden Mandelbrot-mengden er definert som en viss delmengde av det komplekse planet, er det kjekt &aring; kunne regne p&aring; komplekse tall p&aring; datamaskinen.&nbsp;Derfor har jeg skrevet en liten klasse for &aring; summere og gange sammen komplekse tall:</p>
+<p>[java]class Complex {<br />
+  double x;<br />
+  double y;</p>
+<p>  Complex(double x_, double y_) {<br />
+    x = x_;<br />
+    y = y_;<br />
+  }</p>
+<p>  @Override<br />
+  public String toString() {<br />
+    return String.valueOf(x) + "+i" + String.valueOf(y);<br />
+  }</p>
+<p>  // adds c to self<br />
+  void add(Complex other) {<br />
+    x = x + other.x;<br />
+    y = y + other.y;<br />
+  }</p>
+<p>  // squares this number<br />
+  void square() {<br />
+    double old_x = x;<br />
+    double old_y = y;<br />
+    x = old_x*old_x - old_y*old_y;<br />
+    y = 2*old_x * old_y;<br />
+  }</p>
+<p>  // returns square of length<br />
+  double lengthSq() {<br />
+    return x*x+y*y;<br />
+  }<br />
+}[/java]</p>
+<p>Vi har n&aring; muligheter for &aring; legge sammen to komplekse tall, kvadrere et tall, og &aring; f&aring; lengden til tallet.</p>
+<p>Vi trenger en funksjon som lager f&oslash;lgen $ z_n = f(z_{n-1})$ som vi definerte over. Husk at et komplekst tall $ c$ er med i Mandelbrot-mengden om denne f&oslash;lgen er begrenset. Om&nbsp;vi har gitt $ z_{n-1}$, vil denne funksjonen regne ut $ z_n$:</p>
+<p>[java]public void iterate(Complex z, Complex c) {<br />
+  z.square();<br />
+  z.add(c);<br />
+}[/java]</p>
+<p>Koordinatsystemet Processing bruker er forskjellig fra det koordinatsystemet vi l&aelig;rer om p&aring; skolen. I Processing svarer koordinatet (0,0) til venstre &oslash;vre hj&oslash;rne. Jeg har derfor skrevet en funksjon som oversetter fra "piksel-koordinater" til komplekse koordinater. N&aring;r vi har alt dette, kan vi bruke f&oslash;lgende funksjon for &aring; regne ut om et punkt (i,j) er med i Mandelbrot-mengden:</p>
+<p>[java]<br />
+boolean checkMandelbrot(int i, int j, int noIterations) {<br />
+  Complex c = pixelToComplex(i, j);<br />
+  int k = 0;<br />
+  Complex z = new Complex(0, 0);<br />
+  while (k < noIterations) { iterate(z, c); if (z.lengthSq() >= 4) {<br />
+      return false;<br />
+    }<br />
+    k++;<br />
+  }<br />
+  return true;<br />
+}<br />
+[/java]</p>
+<p>Funksjonen konverterer f&oslash;rst pikselkoordinatet (i,j) til et komplekst tall. Deretter lager den&nbsp;f&oslash;lgen,&nbsp;og sjekker om den er ubegrenset eller ikke. If&oslash;lge Wikipedia er f&oslash;lgen ubegrenset&nbsp;om den en&nbsp;gang f&aring;r vektorer med lengde 2. Hvis dette skjer f&oslash;r vi har n&aring;dd maksimalt antall iterasjoner, returnerer vi false, som betyr at punktet&nbsp;<em>ikke</em> er med i Mandelbrot-mengden.</p>
+<p>Til slutt gj&oslash;r vi dette for alle punkter i bildet, og vi f&aring;r ender opp med f&oslash;lgende versjon av Mandelbrot-mengden:<br />
+[caption id="attachment_72" align="aligncenter" width="300"]<img src="http://fredrikmeyer.net/wp-content/uploads/2016/11/mandel_blog-300x200.jpg" alt="En enkel versjon av Mandelbrot-fraktalen, uten noe hokuspokus." width="300" height="200" class="size-medium wp-image-72" /> En enkel versjon av Mandelbrot-fraktalen, uten noe hokuspokus.[/caption]</p>
+<p>Hele koden for &aring; generere dette har jeg lagt ut <a href="https://github.com/FredrikMeyer/processing/tree/master/mandelbrot_blog">p&aring; GitHub</a>.</p>
+<p>Jeg har ogs&aring; skrevet en mer komplisert versjon av samme skript som gir penere bilder:<br />
+[caption id="attachment_74" align="aligncenter" width="300"]<img src="http://fredrikmeyer.net/wp-content/uploads/2016/11/mandelk001-300x300.jpg" alt="Fargene sier noe om hvor raskt f&oslash;lgen i det punktet divergerer." width="300" height="300" class="size-medium wp-image-74" /> Fargene sier noe om hvor raskt f&oslash;lgen i det punktet divergerer.[/caption]</p>
+<p>I det mer kompliserte programmet har jeg lagt til funksjonalitet som gj&oslash;r at man kan zoome innover i fraktalen. Her er noen utsnitt av hva man se:<br />
+[gallery ids="74,75,76,77,78,79,80,81,82,83"]</p>
+<p>Sjekk ut <a href="https://github.com/FredrikMeyer/processing/tree/master/mandelbrot">koden p&aring; GitHub</a>. Jeg m&aring; bare f&oslash;rst advare om at koden til denne er ganske rotete og d&aring;rlig kommentert!</p>
+<p>Det f&aring;r v&aelig;re nok for denne gang. Forh&aring;pentligvis har leseren l&aelig;rt noe om Mandelbrot-mengden og at matte blir mye morsommere n&aring;r man kan programmere den.</p>

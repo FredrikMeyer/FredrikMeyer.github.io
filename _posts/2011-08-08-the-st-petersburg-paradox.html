@@ -1,0 +1,41 @@
+---
+layout: post
+status: publish
+published: true
+title: The St Petersburg paradox
+author: Fredrik Meyer
+author_login: FredrikMeyer
+author_email: hrmeyer@gmail.com
+wordpress_id: 114
+wordpress_url: http://cube.fredrikmeyer.net/?p=114
+date: '2011-08-08 23:22:56 +0200'
+date_gmt: '2011-08-08 21:22:56 +0200'
+categories:
+- Probability and statistics
+tags: []
+comments: []
+---
+<p>We toss a coin. If you get heads first toss, you get &euro;2. If not, we toss again. If you get heads second toss, you get &euro;4. In general, if you get heads on the n'th toss, you get &euro; $2^n$. What is your expected gain?</p>
+
+<p>Basic <a href="http://en.wikipedia.org/wiki/Probability_theory">probability theory</a> tells us that the <a href="http://en.wikipedia.org/wiki/Expected_value">expected value</a> is the sum of the probabilities of the possible events multiplied by the corresponding gain. &nbsp;One can consider the coin tossing as a discrete random variable, taking the values 0 or 1, each with a probability of $\frac 12$. Getting heads at first toss has a probability of $\frac 12$ and earns you &euro;2, getting heads at second toss has a probability of &nbsp;$\frac 14$ and earns you 4&euro;, and so on. Thus the expected value of this game is $$\sum_{i=1}^\infty 2^{i} \frac{1}{2^i}=1+1+1+\cdots=\infty.$$</p>
+
+<p>This sounds surprising. After all, you cannot reasonably expect to earn an infinite amount of money - there will never be an infinite row of tails. However, in this case the gain grows just as quickly as the diminishing probability of successive tails.</p>
+
+<p>A simulation of the game shows that, indeed, the (<em>arithmetic</em>) mean grows as the number of tosses grow, but very slow. The plot below shows the mean value up to $10^7$ tosses. Since the expected value is infinity, a mean gain of about &euro;25 after ten million tosses doesn't sound much.</p>
+
+<p><a href="http://cube.fredrikmeyer.net/wp-content/uploads/toss1.png"><img class="aligncenter size-medium wp-image-117" title="toss1" src="http://cube.fredrikmeyer.net/wp-content/uploads/toss1-300x225.png" alt="" width="300" height="225" /></a> <a href="http://cube.fredrikmeyer.net/wp-content/uploads/toss2.png"><img class="aligncenter size-medium wp-image-118" title="toss2" src="http://cube.fredrikmeyer.net/wp-content/uploads/toss2-300x225.png" alt="" width="300" height="225" /></a></p>
+
+<p>The plots show the same script run twice. The dissimilarity of the plots indicates the slow growth of the accuracy of the simulation (indeed, if the simulation told the real story, the plots would be too large for this world).</p>
+
+<p>Let us, just for fun, change the rules of the game. Instead of getting $2^n$ on the n'th toss, you now get $n$. As we know, linear functions grow substantially slower than exponential ones, so we should expect a change in the expected value. Indeed, a calculation shows that the expected value is 2. Plotting this:</p>
+
+<p>
+  <figure>
+    <a href="http://cube.fredrikmeyer.net/wp-content/uploads/toss3.png"><img class="aligncenter size-medium wp-image-120" title="toss3" src="http://cube.fredrikmeyer.net/wp-content/uploads/toss3-300x225.png" alt="" width="300" height="225" /></a>
+  </figure>
+    We see that already at 100 tosses, we can be pretty sure what the expected value is. This is far from the case with the original rule. From the plots, the expected value could just as well be converging (albeit very slowly).</p>
+
+<p>What does these considerations imply? Firstly, that simulating events with extremely low probabilities demand extremely accuracy/number of trials. Secondly, that using only expected value leads to "paradoxes". Say you were an economist - then you'd na&iuml;vely assume that your rational course of action is to play this game. After all, if you do it many times, you will certainly get rich. But as the probability of earning anything more than a few &euro; is so low, it will take ages before you get rich. Economists solved this by considering time as a resource. Read <a href="http://en.wikipedia.org/wiki/St._Petersburg_paradox">Wikipedias's article</a> for more information.</p>
+
+<p>The <a href="http://cube.fredrikmeyer.net/wp-content/uploads/stpetersburg.py">Python file</a> used to generate the plots.</p>
+

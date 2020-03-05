@@ -1,0 +1,247 @@
+---
+layout: post
+status: publish
+published: false
+title: Boolean algebra and computer chips
+author: Fredrik Meyer
+author_login: FredrikMeyer
+author_email: hrmeyer@gmail.com
+wordpress_id: 431
+wordpress_url: http://cube.fredrikmeyer.net/?p=431
+date: '2017-10-07 09:58:17 +0200'
+date_gmt: '2017-10-07 07:58:17 +0200'
+categories:
+- Uncategorized
+tags: []
+comments: []
+---
+<p>Computers work by manipulating patterns of zeroes and ones, which are represented by electrical signals varying in intensity. It is fascinating to ponder the fact that starting with <strong>simple</strong> manipulations of these electrical signals, we can build Mac OS.</p>
+<p>The most basic logic units in a computer are called (fittingly)&nbsp;<strong>logic gates</strong>. These are devices with a number of inputs, and a number of outputs. The only allowed input and output are zeroes and ones. Thus logic gates represent functions $\{ 0,1 \}^n \to \{ 0,1\}^m$. Such functions are called&nbsp;<strong>Boolean functions&nbsp;</strong>(after George Boole). We often think of zero as representing "false", and one as representing "true". Thus the input of a Boolean function is an array of "truth values", and the output is another array of truth values.</p>
+<p>The whole function can be represented by a <strong>truth table</strong>:</p>
+<table style="border-color: #000000;width:80%;" border="1">
+<tbody>
+<tr>
+<td><strong>And</strong></td>
+<td></td>
+<td>Value</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>Here we have the truth table for the logical function "and", which takes two inputs, and produces one input. It is "true" if and only if both its inputs are true.</p>
+<p>Similarly, we have the truth table for the "or" function:</p>
+<table style="border-color: #000000; width:80%;" border="1">
+<tbody>
+<tr>
+<td><strong>Or</strong></td>
+<td></td>
+<td>Value</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>The "or" function $ \mathrm{or} : \{ 0 , 1 \}^2 \to \{ 0 , 1\}$ is true if and only if one of its input variables are true.</p>
+<p>We also have the "negation function" $ \mathrm{not} : \{ 0, 1 \} \to \{ 0, 1\}$ &nbsp;which is true if and only its input is not true.</p>
+<p>Given these three functions, we can construct all other Boolean functions.</p>
+<p>We first introduce a handy algebraic notation for Boolean functions. We can define them by a formula with variables $ x,y$. We write $ \mathrm{and}(x,y) = x \cdot y$. A formula has no value until it is evaluated at some truth values. Say we put in $ x=0$, and $ y=0$, meaning that both $ x$ and $ y$ are false. Then we have $ x \cdot y = 0 \cdot 0=0$, since the "And" function must return false here. Similarly, we have $ 1 \cdot 1 = 1$.</p>
+<p>For the "or" function we write $ \mathrm{or}(x,y) = x + y$. With this notation, we can manipulate Boolean functions must like in high school algebra. For example, it is true that $ x \cdot y = y \cdot x$, and also that $ x + y = y + x$, since in "and" and "or", order doesn't matter. Not so obvious, but still true, we have that $ x \cdot (y + z) = x \cdot y + x \cdot z$, just as in high school algebra. We also have $ x + 0 =x$, $ 0 \cdot x = 0$, and $ 1 \cdot x = x$ (where $ 0$ is the boolean function that is always false).</p>
+<p>But here stops the similarities with high school algebra. In this algebraic system, it is always true that $ x \cdot x = x$ (shorthanded $ x^2 =x$). This is true because if a statement $ x$ is true, then clearly the statement $ x \mathrm{And} x$ is true (and conversely). Similarly, we have that $ x +x = x$. Also: $ x + 1 = 1$.</p>
+<p>We also write $ \overline x$ for the negation function.</p>
+<p>Every boolean function of two variables can be described using this three functions. We list all boolean functions of two variables:</p>
+<table style="border-color: #000000;width:80%;" border="1">
+<tbody>
+<tr>
+<td>Function</td>
+<td>x</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td></td>
+<td>y</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Constant 0</td>
+<td>$ 0$</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>And</td>
+<td>$ x \cdot y$</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>x And Not y</td>
+<td>$ x \cdot \overline y$</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>x</td>
+<td>$ x$</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Not x And y</td>
+<td>$ \overline x \cdot y$</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>y</td>
+<td>$ y$</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Xor</td>
+<td>$ x \cdot \overline y + \overline x \cdot y$</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Or</td>
+<td>$ x + y$</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Nor</td>
+<td>$ \overline{x + y}$</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Equivalence</td>
+<td>$ x \cdot y + \overline x \cdot \overline y$</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Not y</td>
+<td>$ \overline y$</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>If y then x</td>
+<td>$ x + \overline y$</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Not x</td>
+<td>$ \overline x$</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>If x then y</td>
+<td>$ \overline x + y$</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Nand</td>
+<td>$ \overline {x \cdot y}$</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Constant 1</td>
+<td>$ 1$</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>The boring way to prove this is to check that all the expressions evaluate to the values in the right columns.</p>
+<p>However, a more surprising fact, is that the only boolean function we really need is the "Nand" function: all other boolean functions can be built from combinations of Nand's. This can be proved using the algebraic laws we discussed above.</p>
+<ul>
+<li>The not-function $ \{ 0,1 \} \to \{ 0,1 \}$ is the same as $ \mathrm{nand}(x,x) = \overline{ x \cdot x } = \overline {x } = \mathrm{not}(x)$. If we had physical nand gates and wires, we could then form the not-function as follows:&nbsp;<a href="http://cube.fredrikmeyer.net/?attachment_id=462" rel="attachment wp-att-462"><img style="display:block;" class="aligncenter size-full wp-image-462" src="http://cube.fredrikmeyer.net/wp-content/uploads/notnand.png" alt="" width="120" height="50" /></a></li>
+<li>Given this, it is easy to build the and-function: $ \mathrm{and}(x,y) = \mathrm{not} \circ \mathrm{nand}(x,y)$. This is done by wireing as follows:<a href="http://cube.fredrikmeyer.net/?attachment_id=464" rel="attachment wp-att-464"><img style="display:block;" class="aligncenter size-full wp-image-464" src="http://cube.fredrikmeyer.net/wp-content/uploads/andnand.png" alt="" width="200" height="50" /></a>The gates are nand gates.</li>
+<li>The construction of "or" is slightly more complicated. We first show a solution diagram:&nbsp;<a href="http://cube.fredrikmeyer.net/?attachment_id=466" rel="attachment wp-att-466"><img style="display:block" class="aligncenter size-full wp-image-466" src="http://cube.fredrikmeyer.net/wp-content/uploads/ornand.png" alt="" width="200" height="100" /></a>All gates are nand gates. That this is actually an "or" gate follows from <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws">de Morgan's laws:</a>&nbsp;the wireing can be translated to the following formula<br />
+$ \mathrm{nand}(\mathrm{nand}(x,x), \mathrm{nand}(y,y))$. Inserting the definitions, this is $ \mathrm{nand}(\mathrm{not}(x), \mathrm{not}(y))$, which is $ \overline{ \overline{x}, \overline{y}}$. By de Morgan's law, this expression is equal to $ \overline{\overline{x}} + \overline{\overline{y}} = x + y$.</li>
+</ul>
+<p>Since we can build "not", "and", and "or", it follows that we can build all other logic gates. Thus everything a computer does comes from a simple "nand".</p>
+<p>So far we have talked about the basic logic gates, and introduced an algebraic notation for computing with boolean functions. The next steps in explaining how a computer works would be to talk about arithmetic units, for example. That would be in a future blog post!</p>
+<p>(an interesting mathematical question is this: what kind of algebra does the boolean functions constitute? They do not form a ring, since there is no additive inverse...)</p>

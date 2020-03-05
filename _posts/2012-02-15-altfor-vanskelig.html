@@ -1,0 +1,20 @@
+---
+layout: post
+status: publish
+published: true
+title: En altfor vanskelig måte å løse en enkel ligning på
+author: Fredrik Meyer
+author_login: FredrikMeyer
+author_email: hrmeyer@gmail.com
+wordpress_id: 194
+wordpress_url: http://cube.fredrikmeyer.net/?p=194
+date: '2012-02-15 13:21:39 +0100'
+date_gmt: '2012-02-15 12:21:39 +0100'
+categories:
+- Smalltalk
+tags: []
+---
+<p>La oss si at vi har ligningen $x=2x-2$. Dette lærte man å  løse på ungdomsskolen ved å få x-ene på én side. (i dette tilfellet ser vi raskt at $x=2$ er eneste løsning). Men hva om vi har lyst til å være vanskelige?</p>
+
+<p>Siden $x=2x-2$, kan vi skrive $x=2(2x-2)-2=4x-6$. Så vi har nå at $x=4x-6$. På samme måte kan vi sette inn for $x$ i denne ligningen, og få $x=4(2x-2)-6=8x-14$. Fortsetter vi $n$ ganger, får vi at $x=2^nx-2^n-2^{n-1}+\cdots+2$. Det siste leddet er en geometrisk rekke, som forenkler til $2^{n+1}-2$.</p>
+<p>Vi har altså nå at $x=2^nx-2^{n+1}-2$. &nbsp;Vi deler på $2^n$ på begge sider og får $\frac{x}{2^n}=x-2-\frac{2}{2^n}$. Lar vi nå $n$ gå mot uendelig, forsvinner venstresiden av ligningen og mye av høyresiden. Vi står igjen med $0=x-2$, så $x=2$.</p>

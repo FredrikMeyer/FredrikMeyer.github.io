@@ -1,0 +1,57 @@
+---
+layout: post
+status: publish
+published: true
+title: Fire farger-teoremet
+author:
+  display_name: FredrikMeyer
+  login: FredrikMeyer
+  email: hrmeyer@gmail.com
+  url: ''
+author_login: FredrikMeyer
+author_email: hrmeyer@gmail.com
+wordpress_id: 208
+wordpress_url: http://cube.fredrikmeyer.net/?p=208
+date: '2012-06-03 22:44:58 +0200'
+date_gmt: '2012-06-03 20:44:58 +0200'
+categories:
+- Smalltalk
+- Applications
+tags: []
+comments:
+- id: 1006
+  author: H&aring;kon Dreyer
+  author_email: haakond@gmail.com
+  author_url: ''
+  date: '2012-06-03 23:37:25 +0200'
+  date_gmt: '2012-06-03 21:37:25 +0200'
+  content: "The Four Colour Theorem is the tip of the iceberg,\r\nthe thin end of
+    the wedge\r\nand the first cuckoo of Spring.\r\n-- Bill Tutte"
+- id: 1053
+  author: Arve
+  author_email: arveke@gmail.com
+  author_url: ''
+  date: '2012-07-26 13:58:28 +0200'
+  date_gmt: '2012-07-26 11:58:28 +0200'
+  content: Hvordan kan det bevises n&aring;r en torus krever 7 farger?
+---
+<p>Jeg postet for ikke lenge siden f&oslash;lgende <a href="https://twitter.com/MatematikkFakta/status/208313301602545664">tweet</a> p&aring; <a href="https://twitter.com/#!/MatematikkFakta">@MatematikkFakta</a>:</p>
+<blockquote><p>Du vil aldri trenge mer enn 4 farger om du skal fargelegge et kart.</p></blockquote>
+<p>Kort tid etterp&aring; var noen av mine observante f&oslash;lgere ute og kommenterte at p&aring;standen ikke var helt presis. Dette er selvsagt riktig, og kudos til dem og alle andre med observant blikk.</p>
+<p>For at p&aring;standen skal stemme, m&aring; den gj&oslash;res presis. Det er to ting som er uklart slik p&aring;standen st&aring;r n&aring;. 1) Hva menes med &aring; fargelegge et kart? 2) Hva er et kart!?</p>
+<p>I denne bloggposten skal jeg prate litt om punktene 1) og 2), og litt om hvordan p&aring;standen til slutt ble bevist. Vi vil se at &aring; reformulere problemer er vanlig og nyttig i matematikken.</p>
+<p>[caption id="attachment_211" align="alignright" width="200" caption=""Moteksempel" til fire farger-teoremet. Fra Wikimedia Commons, laget av Inductiveload."]<a href="http://cube.fredrikmeyer.net/wp-content/uploads/200px-4CT_Inadequacy_Example.svg_.png"><img class="size-full wp-image-211" title=""Moteksempel"" src="http://cube.fredrikmeyer.net/wp-content/uploads/200px-4CT_Inadequacy_Example.svg_.png" alt="" width="200" height="200" /></a>[/caption]</p>
+<p>F&oslash;rst og fremst, i virkeligheten er p&aring;standen <strong>feil</strong>. For at fire farger skal holde om vi skal fargelegge et kart, m&aring; landene v&aelig;re enkeltsammenhengende. Dette betyr at tilfeller som Russlands Kaliningrad eller andre land med enklaver ikke kan tillates. Se bildet til h&oslash;yre. Det skal forestille et land A med en enklave. Resultatet er at vi er n&oslash;dt til &aring; bruke 5 farger. I tillegg m&aring; vi tillate at hj&oslash;rnene til landene f&aring;r lov til &aring; m&oslash;te i samme farge.</p>
+<p>S&aring;, siden vi har utelukket Russland med Kaliningrad (ogs&aring;  Aserbajdsjan med Nakhitsjevan), s&aring; virker plutselig ikke teoremet s&aelig;rlig relevant for virkeligheten. Faktisk forteller <a href="http://en.wikipedia.org/wiki/Four_color_theorem">Wikipedia-artikkelen</a> om teoremet at selv ikke folk som lager kart bryr seg - for de velger som regel &aring; bruke flere farger uansett.</p>
+<p>S&aring; vi kan likegjerne omdefinere hva problemet handler om. For &aring; unng&aring; problemer med rare kart, hj&oslash;rner, pussige kurver, og s&aring; videre - reformulerer vi problemet ved hjelp av <a href="http://no.wikipedia.org/wiki/Grafteori">grafteori</a>. Kort sagt: fra et kart lager vi en graf (en graf er en samling noder, med kanter mellom dem), som i bildet under:</p>
+<p>[caption id="attachment_212" align="aligncenter" width="500" caption="Fra kart til graf. Fra Wikimedia Commons, laget av Inductiveload."]<a href="http://cube.fredrikmeyer.net/wp-content/uploads/500px-Four_Colour_Planar_Graph.svg_.png"><img class="size-full wp-image-212" title="Fra kart til graf" src="http://cube.fredrikmeyer.net/wp-content/uploads/500px-Four_Colour_Planar_Graph.svg_.png" alt="" width="500" height="156" /></a>[/caption]</p>
+<p>Det vi gj&oslash;r er f&oslash;lgende: la hvert land v&aelig;re representert med en node (=prikk). Om to land grenser til hverandre, tegner vi en strek mellom dem. Fire farger-teoremet kan n&aring; reformuleres til f&oslash;lgende:</p>
+<blockquote><p>Nodene til enhver graf i planet kan fargelegges med 4 farger slik at ingen nabo-noder har samme farge.</p></blockquote>
+<p>Eller mer teknisk: "enhver planar graf kan fire-farges". Fordelen med denne omformuleringen er at vi n&aring; kan bruke masse verkt&oslash;y fra algebraisk topologi og grafteori for &aring; arbeide med problemet (i tillegg til at problemstillingen er mye mer presis).</p>
+<p>Teoremet har en lang historie. Det ble f&oslash;rst formodet i 1852, hvoretter flere gale bevis ble presentert. I 1890 ble <a href="http://en.wikipedia.org/wiki/Five_color_theorem">fem farger-teoremet</a> bevist - som faktisk er betraktelig lettere &aring; bevise enn fire farger-teoremet. F&oslash;rst p&aring; 60-70-tallet begynte man igjen &aring; gj&oslash;re framskritt, og da ved hjelp av datamaskiner. I 1976 annonserte <a href="http://en.wikipedia.org/wiki/Kenneth_Appel">Kenneth Appel</a> og <a href="http://en.wikipedia.org/wiki/Wolfgang_Haken">Wolfgang Haken</a> ved <a href="http://en.wikipedia.org/wiki/University_of_Illinois_at_Urbana-Champaign">University of Illinois</a> at de hadde bevist teoremet - mye ved hjelp av en datamaskin.</p>
+<p>Det de hadde gjort, var &aring; redusere problemet. De fant ut at, enkelt sagt, enhver slik graf kan bli bygd opp av et endelig antall enklere grafer. De fant 1,936 slike, s&aring; for &aring; bevise teoremet var det nok &aring; be en datamaskin g&aring; gjennom alle disse mulighetene, og sjekke &egrave;n og &egrave;n.</p>
+<p>Dette var langt fra enkelt, og krevde mye manuelt arbeid. For &aring; finne disse 1,936 tilfellene, m&aring;tte de gj&oslash;re mye for h&aring;nd. Det endte opp med et over 400 sider langt bevis. De tekniske detaljene krevde mange originale ideer og annen matematisk analyse. En rekke observasjoner reduserer teoremet til s&aring;kalte triangulerte grafer, og litt tellearbeid setter begrensninger p&aring; eventuelle moteksempler. Til slutt med en metode som er inspirert fra fysikk brukt; p&aring; engelsk "<a href="http://en.wikipedia.org/wiki/Discharging_method_(discrete_mathematics)">method of discharging</a>". Man ser for seg at grafen er en elektrisk ledning, og har en viss ladning. S&aring; kan man redusere grafen steg for steg s&aring;lenge man holder styr p&aring; "ladningen". Mer informasjon om dette smarte trikset er p&aring; <a href="http://en.wikipedia.org/wiki/Four_color_theorem">Wikipedia-artikkelen</a> om beviset.</p>
+<p>Men matematikere er <a href="http://en.wikipedia.org/wiki/Computer-assisted_proof#List_of_theorems_proved_with_the_help_of_computer_programs">kresne typer</a>, og beviset fikk mye kritikk. De mente for eksempel at for at et bevis skulle v&aelig;re et ordentlig matematisk bevis, m&aring;tte det kunne sjekkes av mennesker. Andre mener at datamaskiner kun skal gj&oslash;re utregninger, og ikke steg i bevisene (det er en forskjell her).</p>
+<p>Tross dette er det et faktum at maskiner tross alt gj&oslash;r f&aelig;rre feil enn mennesker. Den st&oslash;rste innsigelsen mot teoremer bevist av datamaskiner er estetisk: beviset gir ikke noen ny innsikt i problemet eller gir opphav til nye nyttige begreper. <em>Det er jo tross alt dette som er vakkert med matematikk: det &aring; f&aring; innsikt i et stort problem.</em></p>
+<p>Til slutt: P&aring; en torus (=smultring) stemmer heller ikke 4-farge-teoremet. Her kreves 7 farger:</p>
+<p>[caption id="attachment_213" align="aligncenter" width="523" caption="Torusen krever 7 farger."]<a href="http://cube.fredrikmeyer.net/wp-content/uploads/Projection_color_torus.png"><img class="size-full wp-image-213" title="Torus" src="http://cube.fredrikmeyer.net/wp-content/uploads/Projection_color_torus.png" alt="" width="523" height="166" /></a>[/caption]</p>

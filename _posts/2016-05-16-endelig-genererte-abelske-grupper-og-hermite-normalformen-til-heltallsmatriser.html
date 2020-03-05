@@ -1,0 +1,218 @@
+---
+layout: post
+status: publish
+published: true
+title: Endelig-genererte abelske grupper og Hermite-normalformen til heltallsmatriser
+author:
+  display_name: FredrikMeyer
+  login: FredrikMeyer
+  email: hrmeyer@gmail.com
+  url: ''
+author_login: FredrikMeyer
+author_email: hrmeyer@gmail.com
+wordpress_id: 357
+wordpress_url: http://cube.fredrikmeyer.net/?p=357
+date: '2016-05-16 18:22:01 +0200'
+date_gmt: '2016-05-16 16:22:01 +0200'
+categories:
+- Uncategorized
+tags: []
+comments: []
+---
+<p>Dette blir en litt vanskeligere post enn ellers. Jeg vil kort skrive om et lite Python-skript jeg skrev for noen uker siden, og forklare hva det gj&oslash;r.</p>
+<p>Noen av leserne av denne bloggen (jeg vet ikke om dette er en ikke-tom mengde) har kanskje hatt et kurs i abstrakt algebra p&aring; universitetet, og l&aelig;rt om <em>abelske grupper</em>. Dette er matematiske objekter hvor du kan legge sammen og trekke fra, og slik at rekkef&oslash;lgen ikke har noe &aring; si (med andre ord er $latex a+b = b+a$ alltid). Husker man spesielt godt, husker man ogs&aring; "fundamentalteoremet om endelig-genererte abelske grupper". Dette teoremet sier at om du ikke trenger uendelig mange elementer for &aring; beskrive gruppen din, kan den alltid beskrives ved hjelp av en $latex n \times m$m-matrise med heltallselementer.</p>
+<p>Vi tar et par eksempler:</p>
+<ul>
+<li>La $latex G$ v&aelig;re heltallene modulo $11$. Dette betyr at $latex 11 \equiv 0$ i denne gruppen. Denne gruppen kan beskrives ved $latex 1 \times 1$-matrisen $latex [11]$.</li>
+<li>La $latex G$ v&aelig;re gruppen av par $latex (a,b)$, hvor $latex a$ regnes modulo $latex 11$, og $latex b$ er et vanlig heltall. Matrisen som presenterer denne gruppen er gitt ved $latex \begin{pmatrix}11 &amp; 0 \\ 0 &amp; 0\end{pmatrix}$.</li>
+</ul>
+<p>Generelt vil gruppen $latex \mathbb Z_{r_1} \oplus \mathbb Z_{r_2} \cdots \oplus \mathbb Z_{r_n} \oplus \mathbb Z^k$ beskrives ved en diagonalmatrise $latex D$ med $latex r_1,\ldots,r_n,0,0,\ldots,0$ langs diagonalen. Dette er vel og fint, men presentasjonen er ikke unik! La meg forklare litt.</p>
+<p>Denne presentasjon stammer fra &aring; tenke p&aring; en heltallsmatrise som en avbildning $latex \mathbb Z^n \xrightarrow{A} \mathbb Z^m$. Den abelske gruppen $latex \mathbb Z^m/im(A)$ (<em>kokjernen</em> til $latex A$) er da gruppen presentert av $latex A$. Ethvert basisskifte i $latex \mathbb Z^n$ og $latex \mathbb Z^m$ vil gi en isomorf kokjerne, s&aring; derfor er ikke $latex A$ unik. Basisskifter svarer til &aring; multiplisere $latex A$ p&aring; venstre- eller h&oslash;yresiden med inverterbare heltallsmatriser med determinant $latex \pm 1$. Dette svarer igjen til &aring; utf&oslash;re rad- eller s&oslash;yleoperasjoner p&aring; $latex A$.</p>
+<p>S&aring; det vi &oslash;nsker, er &aring; transformere $latex A$ p&aring; en slik m&aring;te at det er lett &aring; lese hvilken endelig-generert abelsk gruppe kokjernen er isomorf med. Helt ideelt ville det v&aelig;rt &aring; f&aring; $latex A$ p&aring; diagonalform, men det viser seg at vi ikke trenger &aring; v&aelig;re s&aring; kravstore. Det holder at $latex A$ er p&aring; <em>triangul&aelig;r-form</em>, nemlig at alle elementer under diagonalen er null. Har vi $latex A$ p&aring; denne formen, kan vi lese av diagonalelementene for &aring; finne kokjernen.</p>
+<p>Det finnes en algoritme for &aring; gj&oslash;re dette, og formen matrisen ender opp p&aring; kalles for <em>Hermite-normalform</em> (strengt tatt er Hermite-normalformen en diagonalmatrise, men det trenger vi ikke). Det er en morsom &oslash;velse &aring; implementere denne i Python.</p>
+<p>Det f&oslash;rste jeg m&aring;tte gj&oslash;re, var &aring; implementere min egen matrise-klasse i Python. Pakken Numpy har egne matriseobjekter, men disse konverterer alle elementene til flyttall, noe jeg ikke ville gj&oslash;re. Dette er ikke spesielt vanskelig, og ogs&aring; en morsom &oslash;velse. Under gjengir jeg den relevante koden (det er mange flere ting man kan gj&oslash;re med matriser som jeg enn&aring; ikke har implementert):</p>
+<p>[python]<br />
+import ntheory<br />
+from operator import mul</p>
+<p>class Matrix:<br />
+	"""<br />
+	Constructs a matrix object from a double list.<br />
+	"""<br />
+	def __init__(self, L):<br />
+		self.L = L<br />
+		self.m = len(L[0]) # number of columns<br />
+		self.n = len(L) # number of rows</p>
+<p>	def __add__(self,M):<br />
+		'''<br />
+		Returns the sum of self and M.<br />
+		'''<br />
+		newL = []<br />
+		for r in range(self.m):<br />
+			row = [self.L[r][i] + M.L[r][i] for i in range(self.n)]<br />
+			newL += [row]<br />
+		return Matrix(newL)</p>
+<p>	def __sub__(self,N):<br />
+		return (self + (-N))</p>
+<p>	def __neg__(self):<br />
+		newL = [[-r for r in R] for R in self.L]<br />
+		return Matrix(newL)</p>
+<p>	def __mul__(self,N):<br />
+		'''<br />
+		Returns the product of self and N.<br />
+		'''<br />
+		NT = N.transpose()<br />
+		newL = []<br />
+		for i in range(self.n):<br />
+			newR = []<br />
+			for j in range(N.m):<br />
+				newR += [sum([self.L[i][k]*NT.L[j][k] for k in range(self.m)])]<br />
+			newL += [newR]<br />
+		return Matrix(newL)</p>
+<p>	def transpose(self):<br />
+		'''<br />
+		Returns the transpose of self.<br />
+		'''<br />
+		newL = [[] for i in range(self.m)]<br />
+		for i in range(len(self.L)):<br />
+			for j in range(self.m):<br />
+				newL[j] += [self.L[i][j]]<br />
+		return Matrix(newL)</p>
+<p>	def trace(self):<br />
+		'''<br />
+		If self is square, return trace.<br />
+		'''<br />
+		if self.n != self.m:<br />
+			return "NOT SQUARE"<br />
+		return sum([self.L[i][i] for i in range(self.n)])</p>
+<p>	def switchRows(self,i,j):<br />
+		'''<br />
+		Returns the matrix obtained by switching rows i,j in self.<br />
+		Counting starts at 0.<br />
+		'''<br />
+		newL = list(self.L)<br />
+		newL[i], newL[j] = newL[j], newL[i]<br />
+		return Matrix(newL)</p>
+<p>	def _prodDiagonal(self):<br />
+		return reduce(mul,[self.L[i][i] for i in range(len(self.L))],1)</p>
+<p>	def det(self):<br />
+		return triangular(self)._prodDiagonal()</p>
+<p>	def __str__(self):<br />
+		s = "{0}x{1}-matrix: ".format(self.m,self.n) + str(self.L[0]) + "\n"<br />
+		for row in self.L[1:]:<br />
+			 s+= 12*" " + str(row) + "\n"<br />
+		return s[:-1] + "."</p>
+<p>def identity(n):<br />
+	'''<br />
+	Returns an n x n identity matrix.<br />
+	'''<br />
+	L = []<br />
+	for i in range(n):<br />
+		L += [[int(j == i) for j in range(n)]]<br />
+	return Matrix(L)</p>
+<p>def concat(M,N):<br />
+	'''<br />
+	Input: M nxm matrix.<br />
+	       N n-1 x m-1 matrix.<br />
+	Output: A new matrix Q with N the<br />
+	 submatrix obtained by removing first col and row.<br />
+	 '''<br />
+	L = [M.L[0]]<br />
+	for i in range(1,len(M.L)):<br />
+		R = [M.L[i][0]]<br />
+		for j in range(len(N.L[0])):<br />
+			R += [N.L[i-1][j]]<br />
+		L += [R]<br />
+	return Matrix(L)</p>
+<p>def submatrix(M,c=0,r=0):<br />
+	'''<br />
+	The submatrix obtained by removing col c and row r.<br />
+	'''<br />
+	L = []<br />
+	for i in range(len(M.L)):<br />
+		if i != r:<br />
+			R = []<br />
+			for j in range(len(M.L[0])):<br />
+				if j != c:<br />
+					R += [M.L[i][j]]<br />
+			L += [R]<br />
+	return Matrix(L)<br />
+[/python]</p>
+<p>Modulen "ntheory", er en samling med tallteoretiske funksjoner jeg har skrevet tidligere. Den funksjonen jeg importerer regner ut st&oslash;rste felles divisor mellom to tall $latex a$ og $latex b$ og returnerer en s&aring;kalt "Bezout-relasjon" mellom dem. Dette er et uttrykk p&aring; formen $latex ax+by=d$, hvor $latex d$ er st&oslash;rste felles divisor mellom $latex a$ og $latex b$. Koden til denne funksjonen ser slik ut:</p>
+<p>[python]<br />
+def bezout(a,b):<br />
+    '''<br />
+    Returns a Bezout identity (as a tuple of two elts) for<br />
+    two numbers a,b. I.e. two numbers x,y such that<br />
+      ax+by=gcd(a,b)<br />
+    '''<br />
+    if b == 0:<br />
+        return (1,0)<br />
+    else:<br />
+        r = a % b<br />
+        q = (a-r)/b<br />
+        (s,t) = bezout(b,r)<br />
+        return (t,s-q*t)<br />
+[/python]</p>
+<p>Dette ble kanskje litt mye kode. Det viktigste er at dette er nok kode for &aring; gj&oslash;re noen enkle men fundamentale operasjoner med heltallsmatriser. N&aring; er vi klare til &aring; forklare litt om algoritmen bak funksjonen som transformerer en matrise til sin Hermite-normalform. Jeg skal ikke forklare det i detalj her, men ideen bak er dette: ved &aring; multiplisere p&aring; venstresiden med element&aelig;rmatriser, kan vi p&aring; en systematisk m&aring;te fjerne elementene under diagonalen. Dette gj&oslash;res ved &aring; finne det st&oslash;rste elementet i f&oslash;rste s&oslash;yle, og bruke en Bezout-relasjon for &aring; eliminere alle andre elementer.</p>
+<p>Without further ado, her er koden:</p>
+<p>[python]<br />
+def triangular(M):<br />
+	'''<br />
+	Input: an integer matrix M.<br />
+	Output: an upper triangulization U of M over the integers.<br />
+	Algorithm:<br />
+	 1. Find smallest nonzero element X in first column. Move this element to the top row.<br />
+	    If there are no nonzero elements go to step 3.<br />
+	 2. Use Bezout/Koszul-row operations to remove the nonzero elements below X.<br />
+	 3. Repeat with the submatrix obtained by removing the first row and column.<br />
+	 4. Concatenate the result recursively.<br />
+	'''<br />
+	if len(M.L) == 1:<br />
+		if M.L[0][0] < 0:<br />
+			return -M<br />
+		return M<br />
+	(index, smallest) = (0,M.L[0][0])<br />
+	for i in range(len(M.L)):<br />
+		if abs(M.L[i][0])  < smallest:<br />
+			(index, smallest) = (i,M.L[i][0])<br />
+	if smallest == 0:<br />
+		return concat(M,triangular(submatrix(M)))<br />
+	if index != 0:<br />
+		N = M.switchRows(0,index)   ### row operation<br />
+	else:<br />
+		N = Matrix(M.L)<br />
+	for i in range(1,len(M.L)):<br />
+		d = ntheory.gcd(smallest, N.L[i][0])<br />
+		bez = ntheory.bezout(smallest, N.L[i][0])<br />
+		I = identity(len(N.L))<br />
+		I.L[0][0] = bez[0]<br />
+		I.L[0][i] = bez[1]<br />
+		I.L[i][0] = N.L[i][0]/d<br />
+		I.L[i][i] = -N.L[0][0]/d<br />
+		N = I * N<br />
+		if N.L[0][0] < 0:<br />
+			N = N.mult(-1)<br />
+	return concat(N,triangular(submatrix(N)))<br />
+[/python]</p>
+<p>Jeg skal la den interesserte og kapable leseren analysere funksjonen selv, og avslutter med noe noen eksempler p&aring; hvordan den fungerer.</p>
+<p>La $latex A$ v&aelig;re matrisen</p>
+<p>$latex A = \begin{pmatrix}1 &amp; 2 \\ 3 &amp; 4\end{pmatrix}.$</p>
+<p>Vi kj&oslash;rer da kommandoene "print(A)" og "print triangular(A)" i Python. Resultet er under:<br />
+<code>2x2-matrix:<br />
+[1, 2]<br />
+[3, 4].<br />
+2x2-matrix:<br />
+[1, 2]<br />
+[0, 2].</code></p>
+<p>Dermed kan vi se kokjernen er lik $latex \mathbb Z/2$. Nok et eksempel: La $latex A$ v&aelig;re matrisen<br />
+$latex A = \begin{pmatrix}1 &amp; 2 &amp; 3 \\ 4 &amp; 5 &amp; 6\end{pmatrix}$</p>
+<p>Resultatet blir da:</p>
+<p><code>3x2-matrix:<br />
+[1, 2, 3]<br />
+[4, 5, 6].<br />
+3x2-matrix:<br />
+[1, 2, 3]<br />
+[0, 3, 6].</code></p>
+<p>Dermed er kokjernen lik $latex \mathbb Z/3$ (det krever litt &oslash;velse for &aring; se sant umiddelbart, alts&aring;).</p>
+<p>Til slutt en liten bemerkning: det finnes allerede matematisk programvare som regner ut ting som dette. For eksempel kan man i Macaulay2 skrive "prune coker A", og svaret kommer med en gang. Hovedfordelen med &aring; skrive slike funksjoner selv, er at en blir mer kjent med matematikken bak, og forst&aring;elsen blir st&oslash;rre.</p>
+<p>(dette ble en litt rotere bloggpost, men det f&aring;r v&aelig;re. Hovedform&aring;let var &aring; subtilt skryte av at jeg bruke en l&oslash;rdag til &aring; implementere en interessant algoritme)</p>

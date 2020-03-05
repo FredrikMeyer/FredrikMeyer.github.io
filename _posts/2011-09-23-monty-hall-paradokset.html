@@ -1,0 +1,61 @@
+---
+layout: post
+status: publish
+published: true
+title: Monty Hall-paradokset
+author:
+  display_name: FredrikMeyer
+  login: FredrikMeyer
+  email: hrmeyer@gmail.com
+  url: ''
+author_login: FredrikMeyer
+author_email: hrmeyer@gmail.com
+wordpress_id: 141
+wordpress_url: http://cube.fredrikmeyer.net/?p=141
+date: '2011-09-23 00:57:09 +0200'
+date_gmt: '2011-09-22 22:57:09 +0200'
+categories:
+- Probability and statistics
+tags: []
+comments: []
+---
+<p><a href="http://en.wikipedia.org/wiki/Monty_Hall_problem">"Monty Hall"-problemet</a> er et statistisk paradoks som ble kjent etter at <a href="http://en.wikipedia.org/wiki/Marilyn_vos_Savant">Marilyn vos Savant</a> skrev om det i et <a href="http://en.wikipedia.org/wiki/Parade_(magazine)">amerikansk blad</a> i 1990. Problemet g&aring;r som f&oslash;lger:</p>
+<blockquote><p>"Suppose you're on a game show, and you're given the choice of three doors: Behind one door is a car; behind the others, goats. You pick a door, say No. 1 [but the door is not opened], and the host, who knows what's behind the doors, opens another door, say No. 3, which has a goat. He then says to you, "Do you want to pick door No. 2?" Is it to your advantage to switch your choice?"</p></blockquote>
+<p>Eller p&aring; norsk: Du er med p&aring; en konkurranse, og skal velge &egrave;n av tre d&oslash;rer. Bak en av d&oslash;rene er det en bil (som er premien), og bak de to andre er det geiter. Om du velger, la oss si, d&oslash;r nummer 1 - s&aring; &aring;pner programlederen en d&oslash;r, f.eks nummer 3, og bak den er det en geit. Han gir deg n&aring; mulighet til velge d&oslash;r p&aring; nytt. Er det til din fordel?</p>
+<p>Intuitivt burde det ikke hjelpe &aring; bytte d&oslash;r. Du vet fra f&oslash;r at sjansen for at du finner en bil er 1/3. Om programlederen viser deg en d&oslash;r med geit, vet du at enten er bilen i den du har valgt eller den andre d&oslash;ren som ikke er vist. &nbsp;Burde det da ha noe &aring; si om du bytter? Det <a href="http://en.wikipedia.org/wiki/Paradox#Logical_paradox">paradoksale</a> (i betydningen at det kan overraske), er at det alltid vil l&oslash;nne seg &aring; velge ny d&oslash;r. Hvorfor? Det finnes flere intuitive m&aring;ter &aring; forklare dette p&aring;.</p>
+<p>Forklaringen er overraskende enkel: Du taper om du bytter d&oslash;r hvis og bare hvis du valgte bilen f&oslash;rste gang. Sjansen for &aring; velge bil f&oslash;rste gang er 1/3. Dermed er sjansen for &aring; vinne med bytting lik $$1-\frac{1}{3}=\frac 23$$.</p>
+<p>Eller vi kan teste problemet med empiri (og litt logisk tenking). Jeg programmerte to Monty Hall-funksjoner i <a href="http://www.sagemath.org/">SAGE</a> (Python-kode). Den ene funksjonen bytter d&oslash;r, mens den andre ikke gj&oslash;r. S&aring; tester vi. Her er koden til funksjonen som bytter d&oslash;r:</p>
+<pre>def montyhall_change(choice): # med bytting
+   if choice == 1:
+       return False
+   else:
+       return True</pre>
+<p>Kort forklaring av funksjonen: Vi kan anta bilen ligger bak d&oslash;r nummer 1. Hvis du velger &aring; bytte, og velger d&oslash;r nummer 1, taper du. Derfor returnerer funksjonen <strong>False</strong>. Hvis ikke, viser Monty deg en d&oslash;r med geit i. Det er bare to d&oslash;rer med geiter, s&aring; han m&aring; &aring;pne den du <em>ikke</em> valgte. Om du skal bytte, er eneste mulighet &aring; velge d&oslash;ren med bilen, og funksjonen returnerer derfor <strong>True</strong>.</p>
+<p>Vi lager ogs&aring; en funksjon for &aring; ikke bytte d&oslash;r. Den er naturligvis noe enklere:</p>
+<pre>def montyhall_keep(choice):
+    if choice == 1:
+        return True
+    else:
+        return False</pre>
+<p>Til slutt simulerer vi konkurransen et stort antall ganger, og ser p&aring; tallmaterialet vi f&aring;r:</p>
+<pre>k = 10000
+s_change = 0
+s_keep = 0
+for n in range(k):
+    random = ZZ.random_element(3)+1
+    if montyhall_change(random) == True:
+        s_change += 1
+    if montyhall_keep(random) == True:
+        s_keep += 1
+
+print "Antall forsok: ", k
+print "Antall suksess bytte: ", s_change,
+      " Antall suksess beholde: ", s_keep
+print "Prosent riktig bytte: ", s_change/float(k)
+print "Prosent riktig bytte: ", s_keep/float(k)</pre>
+<p>Koden over kj&oslash;rer konkurransen 10.000 (ti tusen) ganger. For hver gang vi vinner bil, &oslash;ker <strong>s_change</strong> eller <strong>s_keep</strong> med 1, avhengig av hvilken metode vi brukte. Resultatet vises under:</p>
+<pre>Antall forsok:  10000
+Antall suksess bytte:  6721  Antall suksess beholde:  3279
+Prosent riktig bytte:  0.6721
+Prosent riktig beholde:  0.3279</pre>
+<p>Dette stemmer godt med utregningene vi gjorde.</p>

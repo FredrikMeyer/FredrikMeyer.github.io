@@ -1,0 +1,60 @@
+---
+layout: post
+status: publish
+published: true
+title: Fibonacci-tall og fraktaler
+author:
+  display_name: FredrikMeyer
+  login: FredrikMeyer
+  email: hrmeyer@gmail.com
+  url: ''
+author_login: FredrikMeyer
+author_email: hrmeyer@gmail.com
+wordpress_id: 341
+wordpress_url: http://cube.fredrikmeyer.net/?p=341
+date: '2015-05-19 21:20:35 +0200'
+date_gmt: '2015-05-19 19:20:35 +0200'
+categories:
+- Uncategorized
+tags: []
+comments: []
+---
+<p>Leseren har kanskje h&oslash;rt om <a href="https://en.wikipedia.org/wiki/Fibonacci_number">Fibonacci-rekken</a>. Det er en spesiell tallrekke som vokser veldig raskt. Regelen er enkel: vi m&aring; starte med to tall, 1 og 1. S&aring; f&aring;r vi neste tall i rekka ved &aring; summere to to forrige. S&aring; vi f&aring;r 1+1=2. Dermed har vi 1,1,2. S&aring; f&aring;r vi neste ved &aring; regne ut 1+2=3. S&aring; vi har 1,1,2,3. Og s&aring; videre: 1,1,2,3,5,8,13,21,34,55,89,...</p>
+<p>Det er lett &aring; skrive et lite Python-skript som regner ut, si, de 200 f&oslash;rste Fibonacci-tallene.<br />
+[sourcecode language="python"]fiblist = [1,1]<br />
+n = 100<br />
+i = 2<br />
+while i != n:<br />
+ fiblist += [fiblist[i-1]+fiblist[i-2]]<br />
+ i += 1[/sourcecode]<br />
+Vi lager alts&aring; en liste p&aring; to elementer, og s&aring; lager vi en while-l&oslash;kke hvor vi regner ut neste Fibonacci-tall ved hjelp av de to forrige. Resultatet ser omtrent slik ut (skroll til h&oslash;yre for &aring; se alle):</p>
+<pre>[1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711, 28657, 46368, 75025, 121393, 196418, 317811, 514229, 832040, 1346269, 2178309, 3524578, 5702887, 9227465, 14930352, 24157817, 39088169, 63245986, 102334155, 165580141, 267914296, 433494437, 701408733, 1134903170, 1836311903, 2971215073, 4807526976, 7778742049, 12586269025, 20365011074, 32951280099, 53316291173, 86267571272, 139583862445, 225851433717, 365435296162, 591286729879, 956722026041, 1548008755920, 2504730781961, 4052739537881, 6557470319842,10610209857723, 17167680177565, 27777890035288, 44945570212853, 72723460248141, 117669030460994, 190392490709135, 308061521170129, 498454011879264, 806515533049393, 1304969544928657, 2111485077978050, 3416454622906707, 5527939700884757, 8944394323791464, 14472334024676221, 23416728348467685, 37889062373143906, 61305790721611591, 99194853094755497, 160500643816367088, 259695496911122585, 420196140727489673, 679891637638612258, 1100087778366101931, 1779979416004714189, 2880067194370816120, 4660046610375530309, 7540113804746346429, 12200160415121876738L, 19740274219868223167L, 31940434634990099905L, 51680708854858323072L, 83621143489848422977L, 135301852344706746049L, 218922995834555169026L, 354224848179261915075L, 573147844013817084101L]</pre>
+<p>Som vi ser, blir tallene fort utrolig store. Det er faktisk en n&oslash;yaktig formel for Fibonacci-tallene. La $latex \varphi = \frac{1+\sqrt 5}{2}$ v&aelig;re "det gylne snitt". Da viser det seg at det n'te Fibonacci-tallet er gitt ved</p>
+<p style="text-align: center;">$latex F_n = \frac{\varphi^n - (-\varphi)^n}{\sqrt 5}$</p>
+<p>Formelen ble bevist av de Moivre p&aring; 1700-tallet en gang.&nbsp;Vi skal ikke ha bruk for den. Vi skal nemlig snakke om et <a href="https://en.wikipedia.org/wiki/Zeckendorf%27s_theorem">morsomt resultat</a> av Zeckendorf: det sier at ethvert positivt tall kan skrives som en sum av forskjellige Fibonacci-tall. Dette er unikt om vi krever at vi ikke tillater etterf&oslash;lgende Fibonacci-tall i summen. Hva betyr dette?</p>
+<p>Jo, 1 er et Fibonacci-tall, og det er 2 ogs&aring;, s&aring; det er en "liten" sum. Det f&oslash;rste ikke-Fibonacci-tallet er 4, som kan skrives 1+3. Neste tall er 5, som er et Fibonacci-tall. Neste igjen er 6, som kan skrives 6=1+5. Og 7=5+2. Og 9=1+8. 10=8+2. 11=8+3.</p>
+<p>S&aring; skjer det noe morsomt!&nbsp;Hittil har alle tallene kunne skrives med kun to Fibonacci-tall. Men dette g&aring;r ikke n&aring;r vi pr&oslash;ver med 12! Men vi kan skrive 12=8+3+1, som er en sum av 3 Fibonacci-tall. Det neste tallet som vi trenger 3 Fibonacci-tall for &aring; skrive er 18, som kan skrives 18=13+1+5.</p>
+<p>Ok, n&aring; har vi l&aelig;rt dette. S&aring; vi&nbsp;har lyst &aring; skrive et program som skriver naturlige tall som summer av Fibonacci-tall. Det er flere m&aring;ter &aring; gj&oslash;re dette p&aring;, og min er sikkert ikke den mest effektive - kan du programmere, s&aring; kom gjerne med raskere forslag.</p>
+<p>Det f&oslash;rste jeg gj&oslash;r, er &aring; lage en liste over de 2000 f&oslash;rste Fibonacci-tallene ved m&aring;ten over. En m&aring;te &aring; skrive et tall som en sum av andre Fibonacci-tall er "slags rekursivt". Du finner det st&oslash;rste Fibonacci-tallet som er lavere enn tallet du jobber med. Og s&aring; trekker du det fra.&nbsp;Da er oppgaven redusert til &aring;&nbsp;skrive et lavere tall som sum av to Fibonacci-tall. Og slik jobber du deg bakover:<br />
+[sourcecode language="python"]def fibrep(N):<br />
+ if N in fiblist:<br />
+   return [N]<br />
+ else:<br />
+   largest = 1<br />
+   for n in fiblist:<br />
+     if n >  N:<br />
+       break<br />
+     largest = n<br />
+   return fibrep(N-largest) + [largest][/sourcecode]<br />
+Tester man dette, ser man dette g&aring;r overraskende raskt (til tross for rekursjonen!).&nbsp;Faktisk vil denne koden ogs&aring; gi en s&aring;kalt Zeckendorf-representasjon av tallet N. Dette betyr at svaret vi f&aring;r er den <strong>unike</strong>&nbsp;m&aring;ten &aring; skrive N p&aring; som sum av forskjellige, ikke etterf&oslash;lgende Fibonacci-tall (et kort bevis p&aring; hvorfor: anta f&oslash;rst at vi f&aring;r ut en liste med to like Fibonacci-tall (f.eks 10=5+5). Dette kan ikke skje, fordi 5 er et Fibonacci-tall, og da vil koden terminere p&aring; den f&oslash;rste av dem. Anta s&aring; at vi f&aring;r to etterf&oslash;lgende Fibonacci-tall: f.eks 21=13+8. Men da er 21 selv Fibonacci-tall, s&aring; koden terminerer allerede da)</p>
+<p>Her er for eksempel Zeckendorf-representasjonen av de 100 f&oslash;rste naturlige tallene:</p>
+<pre>[[1], [2], [3], [1, 3], [5], [1, 5], [2, 5], [8], [1, 8], [2, 8], [3, 8], [1, 3, 8], [13], [1, 13], [2, 13], [3, 13], [1, 3, 13], [5, 13], [1, 5, 13], [2, 5, 13], [21], [1, 21], [2, 21], [3, 21], [1, 3, 21], [5, 21], [1, 5, 21], [2, 5, 21], [8, 21], [1, 8, 21], [2, 8, 21], [3, 8, 21], [1, 3, 8, 21], [34], [1, 34], [2, 34], [3, 34], [1, 3, 34], [5, 34], [1, 5, 34], [2, 5, 34], [8, 34], [1, 8, 34], [2, 8, 34], [3, 8, 34], [1, 3, 8, 34], [13, 34], [1, 13, 34], [2, 13, 34], [3, 13, 34], [1, 3, 13, 34], [5, 13, 34], [1, 5, 13, 34], [2, 5, 13, 34], [55], [1, 55], [2, 55], [3, 55], [1, 3, 55], [5, 55], [1, 5, 55], [2, 5, 55], [8, 55], [1, 8, 55], [2, 8, 55], [3, 8, 55], [1, 3, 8, 55], [13, 55], [1, 13, 55], [2, 13, 55], [3, 13, 55], [1, 3, 13, 55], [5, 13, 55], [1, 5, 13, 55], [2, 5, 13, 55], [21, 55], [1, 21, 55], [2, 21, 55], [3, 21, 55], [1, 3, 21, 55], [5, 21, 55], [1, 5, 21, 55], [2, 5, 21, 55], [8, 21, 55], [1, 8, 21, 55], [2, 8, 21, 55], [3, 8, 21, 55], [1, 3, 8, 21, 55], [89], [1, 89], [2, 89], [3, 89], [1, 3, 89], [5, 89], [1, 5, 89], [2, 5, 89], [8, 89], [1, 8, 89], [2, 8, 89]]</pre>
+<p>(skroll for &aring; se alle) Vi ser n&aring; at noen tall krever 4 Fibonacci-tall, for eksempel 33=1+3+8+21. Andre krever enda flere. S&aring; vi kan sp&oslash;rre oss, hvis vi plotter&nbsp;naturlige tall mot lengden p&aring; en Zeckendorf-representasjon av dem, hvordan vil denne grafen se ut? Vi ser allerede at for de 11 f&oslash;rste tallene er den konstant lik 2 (bortsett fra p&aring; Fibonacci-tallene hvor den er lik 1).</p>
+<p>La oss se hvordan dette ser ut for de 200 f&oslash;rste naturlige tallene:</p>
+<p>[caption id="attachment_350" align="aligncenter" width="781"]<a href="http://cube.fredrikmeyer.net/wp-content/uploads/200f.png"><img class="wp-image-350 size-full" src="http://cube.fredrikmeyer.net/wp-content/uploads/200f.png" alt="Plot of the 200 first natural numbers versus the length of their Zeckendorf representation." width="781" height="386" /></a> Plott av de 200 f&oslash;rste naturlige tallene mot lengden p&aring; deres Zeckendorf-representasjon.[/caption]</p>
+<p>Vi ser et slags m&oslash;nster, men det er ikke helt klart hva som skjer. La oss plotte de 1000 f&oslash;rste ogs&aring;:</p>
+<p>[caption id="attachment_352" align="aligncenter" width="780"]<a href="http://cube.fredrikmeyer.net/wp-content/uploads/1000f.png"><img class="size-full wp-image-352" src="http://cube.fredrikmeyer.net/wp-content/uploads/1000f.png" alt="De 1000 f&oslash;rste naturlige tallene og lengden til deres Zeckendorf-representasjon." width="780" height="386" /></a> De 1000 f&oslash;rste naturlige tallene og lengden til deres Zeckendorf-representasjon.[/caption]</p>
+<p>Hmhm. M&oslash;nsteret er enn&aring; litt tydeligere! La oss pr&oslash;ve med de 10.000 f&oslash;rste&nbsp;naturlige tallene!</p>
+<p>[caption id="attachment_353" align="aligncenter" width="780"]<a href="http://cube.fredrikmeyer.net/wp-content/uploads/10000f.png"><img class="size-full wp-image-353" src="http://cube.fredrikmeyer.net/wp-content/uploads/10000f.png" alt="De 10.000 f&oslash;rste naturlige tallene og lengden p&aring; deres Zeckendorf-representasjon." width="780" height="386" /></a> De 10.000 f&oslash;rste naturlige tallene og lengden p&aring; deres Zeckendorf-representasjon.[/caption]</p>
+<p>Dette er morsomt! N&aring; ser vi helt tydelig et m&oslash;nster. Det er til og med noe fraktal-lignenden over det. P&aring; den nederste "linjen" ser vi tall som har lengde 1 Zeckendorf-representasjon. Dette er Fibonacci-tallene. P&aring; linje 2 er det de som har lengde 2, og s&aring; videre. Det vi ser er at disse tynnes ut n&aring;r vi n&aelig;rmer oss neste Fibonacci-tall, og s&aring;nn er det p&aring; hver linje.</p>
+<p>N&aring; kan vi sp&oslash;rre oss hvor raskt denne funksjonen vokser, hvor regul&aelig;r den er, og s&aring; videre! Men det f&aring;r vente til en anne bloggpost...</p>
