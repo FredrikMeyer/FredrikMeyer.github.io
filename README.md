@@ -1,3 +1,16 @@
+# FredrikMeyer.github.io
+
+## Build
+
+Local server:
+
+`bundle exec jekyll serve`
+
+New post:
+`bundle exec jekyll post emacs-python-venv`
+
+(using [this](https://github.com/jekyll/jekyll-compose))
+
 # minima
 
 *Minima is a one-size-fits-all Jekyll theme for writers*. It's Jekyll's default (and first) theme. It's what you get when you run `jekyll new`.
