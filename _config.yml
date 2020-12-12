@@ -25,6 +25,7 @@ github_username:  fredrikmeyer
 # Build settings
 plugins:
   - jekyll-feed
+  - jekyll-org
 
 
 # Exclude from processing.
