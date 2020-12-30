@@ -19,13 +19,18 @@
 
 <script>
   MathJax = {
-  tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']],
-      displayMath: [['$$', '$$']]
-  },
-  svg: {
-    fontCache: 'global'
-  }
+      tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\[', '\]']],
+          macros: {
+              RR: "{\\bf R}",
+              R: "{\\mathbb R}"
+          }
+      },
+      svg: {
+          fontCache: 'global'
+      }
+
 };
 </script>
 <script type="text/javascript" id="MathJax-script" async
