@@ -4,10 +4,16 @@
 
 Local server:
 
-`bundle exec jekyll serve`
+```
+bundle exec jekyll serve
+```
+
 
 New post (example):
-`bundle exec jekyll post emacs-python-venv`
+```
+bundle exec jekyll post emacs-python-venv
+```
+
 
 (using [this](https://github.com/jekyll/jekyll-compose))
 
