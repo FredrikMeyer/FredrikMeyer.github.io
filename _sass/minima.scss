@@ -22,6 +22,7 @@ $grey-color-dark:  darken($grey-color, 25%) !default;
 $content-width:    800px !default;
 
 $on-palm:          600px !default;
+
 $on-laptop:        800px !default;
 
 // Use media queries like this:
@@ -47,3 +48,11 @@ $on-laptop:        800px !default;
   "minima/layout",
   "minima/syntax-highlighting"
 ;
+
+
+// My stuff
+
+.post-content img {
+    max-width: 70%;
+    margin: 10px;
+}
