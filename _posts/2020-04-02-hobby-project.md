@@ -2,6 +2,7 @@
 layout: post
 title: Proof of concept chat app
 date: 2020-04-02 10:05 +0200
+tags: programming
 ---
 
 I had some time in between projects at work, so I have spent some spare time trying to learn new stuff. I have for a while wanted to learn about web sockets, so I decided to try to write a simple chat app. Turns out, I had to learn about a lot of other stuff as well. This is a short write up to summarise (mostly) for myself what I've learned.
