@@ -14,3 +14,4 @@ I sometime make stuff.
  - [Hexagon](https://fredrikmeyer.net/etc/hexagon/). A super-simple visualization of how a diagonal projection of a cube is a hexagon.
  - [Moiré pattern](https://fredrikmeyer.net/etc/rotating-circles/). A simple example of a [Moiré pattern](https://en.wikipedia.org/wiki/Moir%C3%A9_pattern).
  - [L-systems](https://fredrikmeyer.net/lsystems-workshop/). A simple tool to visualize some simple L systems.
+ - [Rusting Rays](http://fredrikmeyer.net/rusting_rays/). A Ray tracer written in Rust (work in progress). See also the [repo](https://github.com/FredrikMeyer/rusting_rays/).
