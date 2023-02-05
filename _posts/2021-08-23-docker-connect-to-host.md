@@ -2,6 +2,7 @@
 layout: post
 title: How to connect to localhost from a Docker container
 date: 2021-08-23 22:03 +0200
+tags: programming
 ---
 
 At work I recently spent *a lot* of time trying to get a running Docker container to connect to a service running on `localhost`.

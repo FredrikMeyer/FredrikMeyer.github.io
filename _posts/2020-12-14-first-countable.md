@@ -2,6 +2,7 @@
 layout: post
 title: A topological space that is not first countable
 date: 2020-12-14 07:58 +0100
+tags: math
 ---
 
 Recently me and some friends were discussing [first countability](https://en.wikipedia.org/wiki/First-countable_space), and noticed that Wikipedia gave an example of space that was *not* first countable, but with no proof. So here's my attempt at a proof.

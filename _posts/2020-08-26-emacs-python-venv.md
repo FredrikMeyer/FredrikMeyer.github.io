@@ -2,6 +2,7 @@
 layout: post
 title: Making Emacs use correct Python interpreter in a virtual environment
 date: 2020-08-26 21:33 +0200
+tags: programming emacs
 ---
 
 I like to be able to test things interactively in a Python shell when exploring a new package. I also don't like to exit Emacs when I don't have to. So I'd like to be able to run `C-c C-p` (or `run-python`) directly from Emacs.

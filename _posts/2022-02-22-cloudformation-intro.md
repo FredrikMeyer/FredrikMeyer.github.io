@@ -2,6 +2,7 @@
 layout: post
 title: Introduction to AWS CloudFormation
 date: 2022-02-22 20:14 +0100
+tags: programming
 ---
 
 In the old days, well before my time as a programmer, you had servers, which maybe had a Java server running, connecting to a Oracle SQL database, managed by some other team.

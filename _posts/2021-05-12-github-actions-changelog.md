@@ -2,6 +2,7 @@
 layout: post
 title: Github Action for checking if a changelog is updated 
 date: 2021-05-12 23:01 +0200
+tags: programming
 ---
 
 At a work project I'm working on, we work in a monorepo. We have a simple way to keep track of changes: a `version.txt` and a `CHANGELOG.md` in the root of the repository, that should be updated for every merge to master.
