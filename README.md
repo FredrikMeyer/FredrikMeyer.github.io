@@ -8,12 +8,14 @@ Local server:
 bundle exec jekyll serve
 ```
 
+Often need to run `bundle install` first (for example if dependabot has updated some dependencies).
+
 
 New post (example):
+
 ```
 bundle exec jekyll post emacs-python-venv
 ```
-
 
 (using [this](https://github.com/jekyll/jekyll-compose))
 
