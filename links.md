@@ -7,6 +7,7 @@ permalink: /creations/
 I sometime make stuff.
 
  - [IFS Editor](https://fredrikmeyer.net/ifs-editor/). Explore IFS fractals.
+ - [pylisp](https://github.com/FredrikMeyer/pylisp). A simple Lisp interpreter in Python. Also look at its [literate documentation](https://fredrikmeyer.net/pylisp/).
  - [n-back](https://fredrikmeyer.net/nback/). A simple memory game.
  - ["MS" Paint](https://paint.fredrikmeyer.net/). Start of a clone of the old MS Paint in React.
  - ["Chasing colors"](https://fredrikmeyer.net/etc/chasing-colors/). Simple generative art piece.
