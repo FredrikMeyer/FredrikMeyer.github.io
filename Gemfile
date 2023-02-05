@@ -26,7 +26,7 @@ group :jekyll_plugins do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+# gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'kramdown', '~> 2.3'
 gem 'kramdown-parser-gfm', '~> 1.1'

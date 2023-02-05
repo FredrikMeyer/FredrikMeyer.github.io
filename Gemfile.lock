@@ -91,7 +91,6 @@ DEPENDENCIES
   kramdown (~> 2.3)
   kramdown-parser-gfm (~> 1.1)
   minima (~> 2.5.1)
-  tzinfo-data
 
 BUNDLED WITH
    2.1.4
