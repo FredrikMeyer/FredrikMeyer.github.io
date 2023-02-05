@@ -30,8 +30,8 @@ jobs:
         uses: ruby/setup-ruby@v1.134.0
         with:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-          cache-version: 1 # Increment this number if you need to re-download cached gems
-          rubygems: 3.1.6
+          cache-version: 2 # Increment this number if you need to re-download cached gems
+          rubygems: 3.4.6
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v3
