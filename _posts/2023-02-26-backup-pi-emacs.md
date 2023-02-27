@@ -52,8 +52,9 @@ It required some Googling, but it turned out short and understandable:
 			"s3://<S3-BUCKET-NAME>/"
 			target-name)))
   (print "Starting upload.")
-  (shell-command-to-string command)
-  (print (concat "Uploaded file " target-name " to S3.")))
+  (if (> (shell-command command) 0)
+    (print "Error uploading.")
+    (print (concat "Uploaded file " target-name " to S3."))))
 ```
 
 The script is quite simple. I define the relevant file names, and the the command to run (the `command` variable). Then I run the command.
@@ -64,7 +65,7 @@ To not have everything in my home directory, I moved the script to `/usr/local/b
 
 ## Making it run periodically
 
-To make it run periodically, I googled how [crontab](https://man7.org/linux/man-pages/man5/crontab.5.html) works, and added this snippet in the crontab file (`sudo crontab -e`):
+To make it run periodically, I googled how [crontab](https://man7.org/linux/man-pages/man5/crontab.5.html) works, and added this snippet in the crontab file (`crontab -e`):
 
 ```
 0 3 * * * /usr/local/bin/backup_deconz.el
