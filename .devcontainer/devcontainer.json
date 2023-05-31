@@ -1,7 +1,7 @@
 {
   "name": "Ruby",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  "image": "ruby:2.7.3-slim-buster",
+  "image": "mcr.microsoft.com/devcontainers/jekyll:bullseye",
 
   // Features to add to the dev container. More info: https://containers.dev/features.
   // "features": {},
