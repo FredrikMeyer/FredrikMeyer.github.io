@@ -16,3 +16,4 @@ I sometime make stuff.
  - [Moiré pattern](https://fredrikmeyer.net/etc/rotating-circles/). A simple example of a [Moiré pattern](https://en.wikipedia.org/wiki/Moir%C3%A9_pattern).
  - [L-systems](https://fredrikmeyer.net/lsystems-workshop/). A simple tool to visualize some simple L systems.
  - [Rusting Rays](http://fredrikmeyer.net/rusting_rays/). A Ray tracer written in Rust (work in progress). See also the [repo](https://github.com/FredrikMeyer/rusting_rays/).
+ - [Abelian Sandpiles](https://github.com/FredrikMeyer/abeliansandpile). An implementation of [abelian sandpiles](https://en.wikipedia.org/wiki/Abelian_sandpile_model) in Rust.
