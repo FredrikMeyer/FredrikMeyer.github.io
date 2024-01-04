@@ -1,5 +1,18 @@
 # FredrikMeyer.github.io
 
+## rbenv
+
+Install `rbenv`:
+
+```
+brew install rbenv ruby-build
+```
+
+Yes, it's old...:
+```
+rbenv install 2.7.3
+```
+
 ## Build
 
 Local server:
