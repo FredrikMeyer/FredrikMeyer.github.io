@@ -9,6 +9,7 @@ brew install rbenv ruby-build
 ```
 
 Yes, it's old...:
+
 ```
 rbenv install 2.7.3
 ```
