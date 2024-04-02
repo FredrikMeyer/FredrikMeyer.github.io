@@ -1,6 +1,12 @@
 _site
 .sass-cache
 .jekyll-metadata
+.jekyll-cache/**/*
 
 vendor/
 .bundle
+
+# Ignore this bundles file, fine, since it is already commited
+etc/p5.js
+etc/addons/p5.sound.js
+etc/addons/p5.sound.min.js

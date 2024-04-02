@@ -27,6 +27,7 @@ linkedin_username: fredrikmeyer
 plugins:
   - jekyll-feed
   - jekyll-org
+  - jekyll-toc
 
 
 # Exclude from processing.

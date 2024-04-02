@@ -22,5 +22,6 @@ group :jekyll_plugins do
   gem 'jekyll-feed', '~> 0.6'
 end
 
-gem 'kramdown', '~> 2.3'
+gem 'jekyll-toc'
+gem 'kramdown', '~> 2.4'
 gem 'kramdown-parser-gfm', '~> 1.1'
