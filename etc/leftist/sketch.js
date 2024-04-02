@@ -1,3 +1,7 @@
+/// <reference path="../p5.js" />
+/// <reference path="../addons/p5.dom.js">
+import p5 from "../p5.js";
+
 let input;
 
 let TREE = {
@@ -18,18 +22,19 @@ let TREE = {
 };
 
 function setup() {
-    createCanvas(700, 700);
-    background(255);
-    stroke(0);
-    textSize(20);
-    textAlign(CENTER, CENTER);
-    textStyle(NORMAL);
+  createCanvas(700, 700);
 
-    input = createInput("");
+  background(255);
+  stroke(0);
+  textSize(20);
+    textAlign(CENTER, CENTER);
+  textStyle(NORMAL);
+
+  input = createInput("");
     input.position(0, 0);
 
-    button = createButton("Submit");
-    button.position(input.x + input.width, 0);
+  button = createButton("Submit");
+  button.position(input.x + input.width, 0);
     button.mousePressed(submitValue);
 }
 
@@ -54,7 +59,6 @@ function submitValue() {
 
         addNode(value);
     }
-    
     redraw();
 }
 
