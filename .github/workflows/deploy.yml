@@ -36,6 +36,20 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - name: Install Java+PlantUML
+        run: |
+          # From https://github.com/metanorma/plantuml-install/blob/main/ubuntu.sh
+          sudo apt-get install -y default-jre graphviz
+          PLANTUML_URL="https://github.com/plantuml/plantuml/releases/download/v1.2024.4/plantuml-1.2024.4.jar"
+          mkdir -p /opt/plantuml
+          curl -o /opt/plantuml/plantuml.jar -L "${PLANTUML_URL}"
+          printf '#!/bin/sh\nexec java -Djava.awt.headless=true -jar /opt/plantuml/plantuml.jar "$@"' | sudo tee /usr/bin/plantuml
+          sudo chmod +x /usr/bin/plantuml
+          
       - name: Build with Jekyll
         # Outputs to the './_site' directory by default
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"

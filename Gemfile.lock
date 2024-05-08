@@ -40,6 +40,8 @@ GEM
       jekyll (>= 3.5.0)
       json
       org-ruby (>= 0.9.12)
+    jekyll-plantuml (1.4.2)
+      jekyll (> 2.0)
     jekyll-sass-converter (3.0.0)
       sass-embedded (~> 1.54)
     jekyll-toc (0.18.0)
@@ -80,7 +82,7 @@ GEM
     sass-embedded (1.63.6)
       google-protobuf (~> 3.23)
       rake (>= 13.0.0)
-    sass-embedded (1.63.6-x86_64-linux-gnu)
+    sass-embedded (1.63.6-x86_64-linux)
       google-protobuf (~> 3.23)
     terminal-table (3.0.2)
       unicode-display_width (>= 1.1.1, < 3)
@@ -96,6 +98,7 @@ DEPENDENCIES
   jekyll-compose
   jekyll-feed (~> 0.6)
   jekyll-org (>= 1.1.0)
+  jekyll-plantuml
   jekyll-toc
   kramdown (~> 2.4)
   kramdown-parser-gfm (~> 1.1)
