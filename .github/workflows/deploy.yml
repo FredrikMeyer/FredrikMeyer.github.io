@@ -45,7 +45,7 @@ jobs:
           PLANTUML_URL="https://github.com/plantuml/plantuml/releases/download/v1.2024.4/plantuml-1.2024.4.jar"
           mkdir -p /opt/plantuml
           curl -o /opt/plantuml/plantuml.jar -L "${PLANTUML_URL}"
-          sudo printf '#!/bin/sh\nexec java -Djava.awt.headless=true -jar /opt/plantuml/plantuml.jar "$@"' > /usr/bin/plantuml
+          printf '#!/bin/sh\nexec java -Djava.awt.headless=true -jar /opt/plantuml/plantuml.jar "$@"' | sudo tee /usr/bin/plantuml
           sudo chmod +x /usr/bin/plantuml
           
       - name: Build with Jekyll
