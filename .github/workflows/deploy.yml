@@ -42,6 +42,7 @@ jobs:
           java-version: '21'
       - name: Install Java+PlantUML
         run: |
+          # From https://github.com/metanorma/plantuml-install/blob/main/ubuntu.sh
           sudo apt-get install -y default-jre graphviz
           PLANTUML_URL="https://github.com/plantuml/plantuml/releases/download/v1.2024.4/plantuml-1.2024.4.jar"
           mkdir -p /opt/plantuml
