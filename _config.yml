@@ -28,6 +28,7 @@ plugins:
   - jekyll-feed
   - jekyll-org
   - jekyll-toc
+  - jekyll-plantuml
 
 
 # Exclude from processing.
