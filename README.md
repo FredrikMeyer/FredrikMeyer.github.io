@@ -33,7 +33,9 @@ bundle exec jekyll post emacs-python-venv
 
 (using [this](https://github.com/jekyll/jekyll-compose))
 
-# minima
+Image resizing with https://rbuchberger.github.io/jekyll_picture_tag/
+
+## minima
 
 *Minima is a one-size-fits-all Jekyll theme for writers*. It's Jekyll's default (and first) theme. It's what you get when you run `jekyll new`.
 
@@ -41,7 +43,7 @@ bundle exec jekyll post emacs-python-venv
 
 ![minima theme preview](/screenshot.png)
 
-## Installation
+### Installation
 
 Add this line to your Jekyll site's Gemfile:
 
@@ -60,11 +62,11 @@ And then execute:
     $ bundle
 
 
-## Contents At-A-Glance
+### Contents At-A-Glance
 
 Minima has been scaffolded by the `jekyll new-theme` command and therefore has all the necessary files and directories to have a new Jekyll site up and running with zero-configuration.
 
-### Layouts
+#### Layouts
 
 Refers to files within the `_layouts` directory, that define the markup for your theme.
 
@@ -73,7 +75,7 @@ Refers to files within the `_layouts` directory, that define the markup for your
   - `page.html` &mdash; The layout for your documents that contain FrontMatter, but are not posts.
   - `post.html` &mdash; The layout for your posts.
 
-### Includes
+#### Includes
 
 Refers to snippets of code within the `_includes` directory that can be inserted in multiple layouts (and another include-file as well) within the same theme-gem.
 
@@ -84,7 +86,7 @@ Refers to snippets of code within the `_includes` directory that can be inserted
   - `header.html` &mdash; Defines the site's main header section.
   - `icon-* files` &mdash; Inserts github and twitter ids with respective icons.
 
-### Sass
+#### Sass
 
 Refers to `.scss` files within the `_sass` directory that define the theme's styles.
 
@@ -93,7 +95,7 @@ Refers to `.scss` files within the `_sass` directory that define the theme's sty
   - `minima/_layout.scss` &mdash; Defines the visual style for various layouts.
   - `minima/_syntax-highlighting.scss` &mdash; Defines the styles for syntax-highlighting.
 
-### Assets
+#### Assets
 
 Refers to various asset files within the `assets` directory.
 Contains the `main.scss` that imports sass files from within the `_sass` directory. This `main.scss` is what gets processed into the theme's main stylesheet `main.css` called by `_layouts/default.html` via `_includes/head.html`.
@@ -101,9 +103,9 @@ Contains the `main.scss` that imports sass files from within the `_sass` directo
 This directory can include sub-directories to manage assets of similar type, and will be copied over as is, to the final transformed site directory.
 
 
-## Usage
+### Usage
 
-### Customization
+#### Customization
 
 To override the default structure and style of minima, simply create the concerned directory at the root of your site, copy the file you wish to customize to that directory, and then edit the file.
 e.g., to override the [`_includes/head.html `](_includes/head.html) file to specify a custom style path, create an `_includes` directory, copy `_includes/head.html` from minima gem folder to `<yoursite>/_includes` and start editing that file.
@@ -124,7 +126,7 @@ The site's default CSS has now moved to a new place within the gem itself, [`ass
 
 --
 
-### Change default date format
+#### Change default date format
 
 You can change the default date format by specifying `site.minima.date_format`
 in `_config.yml`.
@@ -138,16 +140,16 @@ minima:
 
 --
 
-## Contributing
+### Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/jekyll/minima. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
-## Development
+### Development
 
 To set up your environment to develop this theme, run `script/bootstrap`.
 
 To test your theme, run `script/server` (or `bundle exec jekyll serve`) and open your browser at `http://localhost:4000`. This starts a Jekyll server using your theme and the contents. As you make modifications, your site will regenerate and you should see the changes in the browser after a refresh.
 
-## License
+### License
 
 The theme is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
