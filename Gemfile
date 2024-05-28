@@ -20,10 +20,10 @@ gem 'jekyll-org', '>= 1.1.0'
 # If you have any plugins, put them here!
 group :jekyll_plugins do
   gem 'jekyll-feed', '~> 0.6'
+  gem "jekyll-plantuml"
+  gem "jekyll_picture_tag", '~> 2.0'
+  gem 'jekyll-toc'
 end
 
-gem 'jekyll-toc'
 gem 'kramdown', '~> 2.4'
 gem 'kramdown-parser-gfm', '~> 1.1'
-
-gem "jekyll-plantuml"
