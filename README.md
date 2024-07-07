@@ -35,13 +35,16 @@ bundle exec jekyll post emacs-python-venv
 
 Image resizing with https://rbuchberger.github.io/jekyll_picture_tag/
 
+
+## Google Search Console
+
+https://search.google.com/search-console?resource_id=sc-domain%3Afredrikmeyer.net
+
 ## minima
 
 *Minima is a one-size-fits-all Jekyll theme for writers*. It's Jekyll's default (and first) theme. It's what you get when you run `jekyll new`.
 
 [Theme preview](https://jekyll.github.io/minima/)
-
-![minima theme preview](/screenshot.png)
 
 ### Installation
 
