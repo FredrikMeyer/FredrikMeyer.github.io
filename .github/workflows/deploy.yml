@@ -15,10 +15,6 @@ permissions:
   pages: write
   id-token: write
 
-# Allow one concurrent deployment
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
 
 jobs:
   # Build job
@@ -63,6 +59,9 @@ jobs:
 
   # Deployment job
   deploy:
+    concurrency:
+        group: "pages"
+        cancel-in-progress: true
     if: github.ref == 'refs/heads/master' || (github.event.action == 'closed' && github.event.pull_request.merged == true)
     environment:
       name: github-pages
