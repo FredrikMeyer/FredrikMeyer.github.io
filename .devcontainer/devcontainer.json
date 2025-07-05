@@ -10,7 +10,7 @@
   "forwardPorts": [4000],
 
   // Use 'postCreateCommand' to run commands after creating the container.
-  "postCreateCommand": "bundle install; bundle exec jekyll serve",
+  "postCreateCommand": "bundle install; bundle exec jekyll serve &",
 
   // Configure tool-specific properties.
   // "customizations": {},
