@@ -72,5 +72,4 @@ bundle exec jekyll post "post-title"
 - UML diagram generation
 - Mathematical content focus
 - Creative coding projects
-- Google Analytics integration
 - Social media links (Twitter, GitHub, LinkedIn)

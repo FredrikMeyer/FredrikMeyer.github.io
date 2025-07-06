@@ -84,7 +84,6 @@ Refers to snippets of code within the `_includes` directory that can be inserted
 
   - `disqus_comments.html` &mdash; Code to markup disqus comment box.
   - `footer.html` &mdash; Defines the site's footer section.
-  - `google-analytics.html` &mdash; Inserts Google Analytics module (active only in production environment).
   - `head.html` &mdash; Code-block that defines the `<head></head>` in *default* layout.
   - `header.html` &mdash; Defines the site's main header section.
   - `icon-* files` &mdash; Inserts github and twitter ids with respective icons.
