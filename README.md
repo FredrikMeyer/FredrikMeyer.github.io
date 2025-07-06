@@ -8,10 +8,10 @@ Install `rbenv`:
 brew install rbenv ruby-build
 ```
 
-Yes, it's old...:
+Latest Ruby version:
 
 ```
-rbenv install 2.7.3
+rbenv install 3.4.4
 ```
 
 ## Build

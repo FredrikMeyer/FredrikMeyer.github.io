@@ -6,7 +6,7 @@ This is a Jekyll-based personal blog and website hosted at https://www.fredrikme
 
 - **Site Owner**: Fredrik Meyer
 - **Theme**: Minima (Jekyll's default theme)
-- **Ruby Version**: 2.7.3 (managed with rbenv)
+- **Ruby Version**: 3.4.4 (managed with rbenv)
 - **Jekyll Version**: ~4.4.1
 - **Description**: "Mathematics is fun."
 

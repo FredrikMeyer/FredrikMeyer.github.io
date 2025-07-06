@@ -1,4 +1,4 @@
-FROM ruby:2.7.3
+FROM ruby:3.4.4
 
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
@@ -41,6 +41,6 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 
-RUN gem update --system 3.4.6 && \
-    gem install bundler -v '2.1.4'
+RUN gem update --system && \
+    gem install bundler
 

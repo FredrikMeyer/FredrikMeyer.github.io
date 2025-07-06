@@ -26,7 +26,6 @@ linkedin_username: fredrikmeyer
 # Build settings
 plugins:
   - jekyll-feed
-  - jekyll-org
   - jekyll-toc
   - jekyll-plantuml
 
