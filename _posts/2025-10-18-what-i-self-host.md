@@ -13,7 +13,7 @@ In this post I will tell about the self hosting I do, and end by sketching the s
 
 [Miniflux](https://github.com/miniflux/v2) is a "minimalist and opinionated feed reader". I host my own instance at [https://rss.fredrikmeyer.net/](https://rss.fredrikmeyer.net/) It is very easy to set up using Docker, see [the documentation](https://miniflux.app/docs/docker.html#docker-compose).
 
-[{% picture /assets/miniflux.png --style="" --alt Grafana %}](/assets/miniflux.png){: .centered}
+[{% picture /assets/miniflux.png --style="" --alt Miniflux %}](/assets/miniflux.png){: .centered}
 
 I do have lots of unread blog posts 🤨.
 
