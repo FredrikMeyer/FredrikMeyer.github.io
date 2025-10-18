@@ -2,6 +2,7 @@
 layout: post
 title: All the ways I use AI
 date: 2025-07-02 13:24 +0200
+tags: ai programming
 ---
 
 I had some very nice experiences with Claude Code recently, and I realized it would be fun to write down all the ways I use AI today (highly likely it will all change within the next year!).
@@ -45,7 +46,7 @@ I have tried Claude Code a few times. At the moment I'm using an API key to conn
 
 With Claude Code I could go a lot further with exploring the data from my Garmin watch. I asked it to use the [R programming language](https://www.r-project.org/) to analyze and plot the data, and summarize everything in a PDF using LaTeX.
 
-[{% picture /assets/sleep_category_hr_boxplot.png style="float: right" --alt dddd %}](/assets/sleep_category_hr_boxplot.png)
+[{% picture /assets/sleep_category_hr_boxplot.png style="float: right" --alt Sleep categories %}](/assets/sleep_category_hr_boxplot.png)
 
 On question I wanted to answer was if bad sleep affected heart rates the following day. By analyzing the sleep scores and comparing with heart rates, it produced the plot on the right side.
 
