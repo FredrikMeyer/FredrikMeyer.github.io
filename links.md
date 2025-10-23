@@ -4,7 +4,7 @@ title: Some creations
 permalink: /creations/
 ---
 
-I sometime make stuff.
+I sometimes make stuff.
 
  - [IFS Editor](https://fredrikmeyer.net/ifs-editor/). Explore IFS fractals.
  - [pylisp](https://github.com/FredrikMeyer/pylisp). A simple Lisp interpreter in Python. Also look at its [literate documentation](https://fredrikmeyer.net/pylisp/).
