@@ -1,3 +1,4 @@
+@use "sass:color";
 @charset "utf-8";
 
 // Define defaults for each variable.
@@ -15,7 +16,7 @@ $background-color: #fdfdfd !default;
 $brand-color:      #2a7ae2 !default;
 
 $grey-color:       #828282 !default;
-$grey-color-light: lighten($grey-color, 40%) !default;
+$grey-color-light: color.adjust($grey-color, $lightness: 40%) !default;
 $grey-color-dark:  adjust($grey-color, -25%) !default;
 
 // Width of the content area
