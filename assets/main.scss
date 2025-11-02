@@ -2,4 +2,16 @@
 # Only the main Sass file needs front matter (the dashes are enough)
 ---
 
-@import "minima";
+@use "minima";
+
+// My stuff
+
+.post-content img {
+    max-width: 70%;
+    margin: 10px;
+}
+
+.plantuml {
+    max-width: 100%;
+}
+
