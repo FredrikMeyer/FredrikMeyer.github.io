@@ -11,3 +11,4 @@ vendor/
 etc/p5.js
 etc/addons/p5.sound.js
 etc/addons/p5.sound.min.js
+uml/
