@@ -2,6 +2,7 @@
 layout: page
 title: About me
 permalink: /about/
+menu: true
 ---
 
 {% picture /assets/megfarger.jpg style="float:right;width:30%" %}

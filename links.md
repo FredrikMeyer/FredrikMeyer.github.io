@@ -2,6 +2,7 @@
 layout: page
 title: Some creations
 permalink: /creations/
+menu: true
 ---
 
 I sometimes make stuff.
