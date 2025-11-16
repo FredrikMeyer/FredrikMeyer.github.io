@@ -15,9 +15,9 @@ I wanted to write something slightly more complicated than the examples in the K
 
 One (silly, [very bad](https://ocw.mit.edu/courses/2-086-numerical-computation-for-mechanical-engineers-fall-2014/30d8b5da0c8e6ad44987b3563bc32dab_MIT2_086F14_Monte_Carlo.pdf)) way to estimate the area of the circle is to sample random points inside the square, and count how many of them land inside the circle. We end up with this formula:
 
-\[
+$$
 \lim_{n \to \infty} \frac{ \\#\( \text{hits inside the circle} \)}{n} = \large\pi
-\]
+$$
 
 
 We need two ingredients to estimate Pi this way:
@@ -26,9 +26,9 @@ We need two ingredients to estimate Pi this way:
 
 To decide if a given point is inside a circle, we just check that its absolute value is less than one:
 
-\[
+$$
 (x,y) \mapsto x^2+y^2 \leq 1
-\]
+$$
 
 We realize now that this algorithm can be implemented in [25 lines of Python](https://gist.github.com/FredrikMeyer/1099aa6791e272d85b65cd33a53899a6) (with plenty of spacing), but let us use our skills as engineers to over-engineer instead.
 

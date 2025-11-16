@@ -30,6 +30,13 @@ plugins:
   - jekyll-plantuml
 
 
+  # Markdown settings
+kramdown:
+  math_engine: null  # Disable Kramdown's math processing, let KaTeX handle it
+  # parse_block_html: true
+  # parse_span_html: true
+
+
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.

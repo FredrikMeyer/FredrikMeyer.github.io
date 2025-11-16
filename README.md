@@ -45,6 +45,11 @@ https://search.google.com/search-console?resource_id=sc-domain%3Afredrikmeyer.ne
 https://www.seanh.cc/2019/09/29/liquid/#3-filters
 https://jekyllrb.com/tutorials/navigation/#scenario-7-including-items-conditionally
 
+## Sjekk ut
+
+https://github.com/yagarea/jektex
+https://github.com/planetjekyll/awesome-jekyll-plugins?tab=readme-ov-file
+
 ## minima
 
 *Minima is a one-size-fits-all Jekyll theme for writers*. It's Jekyll's default (and first) theme. It's what you get when you run `jekyll new`.
