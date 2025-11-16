@@ -16,7 +16,7 @@ I wanted to write something slightly more complicated than the examples in the K
 One (silly, [very bad](https://ocw.mit.edu/courses/2-086-numerical-computation-for-mechanical-engineers-fall-2014/30d8b5da0c8e6ad44987b3563bc32dab_MIT2_086F14_Monte_Carlo.pdf)) way to estimate the area of the circle is to sample random points inside the square, and count how many of them land inside the circle. We end up with this formula:
 
 $$
-\lim_{n \to \infty} \frac{ \\#\( \text{hits inside the circle} \)}{n} = \large\pi
+\lim_{n \to \infty} \frac{ \#\left( \text{hits inside the circle} \right)}{n} = \large\pi
 $$
 
 
