@@ -49,3 +49,6 @@ exclude:
   - vendor/gems/
   - vendor/ruby/
   - .github/
+
+include:
+  - .well-known/
