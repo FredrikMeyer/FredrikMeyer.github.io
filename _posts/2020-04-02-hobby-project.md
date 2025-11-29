@@ -9,7 +9,7 @@ I had some time in between projects at work, so I have spent some spare time try
 
 I chose Clojure as the backend language, because I have a fascination for languages in the LISP (*list processing*) family. On the frontend I used [Create React App](https://create-react-app.dev/) to bootstrap a React + [Typescript](https://www.typescriptlang.org/index.html) app with sane defaults.
 
-Before I explain the implementation, open it [here](https://gifted-antonym-271008.firebaseapp.com/). Try to open it in two browser windows, and type something.
+*Update 29/11-2025:* A dead link checker found reminded me that this doesn't exist anymore.
 
 ## Technologies used
 
