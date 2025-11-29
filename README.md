@@ -35,6 +35,18 @@ bundle exec jekyll post emacs-python-venv
 
 Image resizing with https://rbuchberger.github.io/jekyll_picture_tag/
 
+## Check dead links 
+
+F.ex with [Lychee](https://github.com/lycheeverse/lychee). Like this:
+
+First build, then from `_site_`:
+
+```
+lychee -b https://fredrikmeyer.net/ .
+```
+
+Inspired from this: https://www.jeremykun.com/2024/10/30/how-this-blog-does-indieweb/
+
 
 ## Google Search Console
 
