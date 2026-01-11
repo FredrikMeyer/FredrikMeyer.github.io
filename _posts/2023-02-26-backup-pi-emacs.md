@@ -2,7 +2,7 @@
 layout: post
 title: Using Emacs to backup a Raspberry Pi
 date: 2023-02-26 20:33 +0100
-tags: programming emacs
+tags: programming emacs raspberrypi
 ---
 
 At home, I manage by smart lights (Philis Hue, Ikea Trådløs, etc) from a Raspberry Pi running the [Deconz](https://phoscon.de/en/raspbee2) Zigbee gateway.
