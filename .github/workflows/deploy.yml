@@ -33,7 +33,7 @@ jobs:
           cache-version: 3 # Increment this number if you need to re-download cached gems
       - name: Setup Pages
         id: pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
       - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
