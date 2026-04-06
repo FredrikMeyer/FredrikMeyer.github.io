@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speed Guess</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #1a1a2e;
+      color: #eee;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      gap: 24px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      letter-spacing: 2px;
+      color: #f0c040;
+    }
+
+    #track-container {
+      position: relative;
+      width: 800px;
+      height: 120px;
+    }
+
+    #track {
+      width: 100%;
+      height: 100%;
+      background: #2d2d2d;
+      border-radius: 8px;
+      border: 2px solid #444;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Road markings */
+    .road-line {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 6px;
+      background: repeating-linear-gradient(
+        to right,
+        #f0c040 0px, #f0c040 40px,
+        transparent 40px, transparent 80px
+      );
+      width: 100%;
+      opacity: 0.4;
+    }
+
+    #car {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 40px;
+      left: 0;
+      transition: none;
+      line-height: 1;
+      user-select: none;
+    }
+
+    #hide-zone {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.0);
+      pointer-events: none;
+    }
+
+    #fog {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      background: linear-gradient(to right, transparent, #2d2d2d 30px);
+      width: 60px;
+      pointer-events: none;
+      display: none;
+    }
+
+    /* Target flag */
+    #target {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 4px;
+      background: #e74c3c;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    #target::after {
+      content: '🏁';
+      font-size: 28px;
+      position: absolute;
+      top: 4px;
+      left: 2px;
+    }
+
+    /* Disappear marker */
+    #disappear-marker {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 2px;
+      background: #3498db;
+      opacity: 0.5;
+    }
+
+    #disappear-marker::after {
+      content: '👁';
+      font-size: 18px;
+      position: absolute;
+      top: 4px;
+      left: -8px;
+    }
+
+    #result-zone {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 4px;
+      background: #2ecc71;
+      display: none;
+    }
+
+    #result-zone::after {
+      content: '📍';
+      font-size: 22px;
+      position: absolute;
+      top: 4px;
+      left: -8px;
+    }
+
+    #controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    #stop-btn {
+      padding: 18px 60px;
+      font-size: 1.4rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.08s, background 0.15s;
+      box-shadow: 0 4px 16px rgba(231,76,60,0.4);
+    }
+
+    #stop-btn:active { transform: scale(0.95); }
+    #stop-btn:disabled {
+      background: #555;
+      box-shadow: none;
+      cursor: default;
+    }
+
+    #start-btn {
+      padding: 12px 40px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      background: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.08s;
+      box-shadow: 0 4px 12px rgba(39,174,96,0.4);
+    }
+
+    #start-btn:active { transform: scale(0.95); }
+    #start-btn:hover { background: #2ecc71; }
+
+    #feedback {
+      font-size: 1.5rem;
+      font-weight: bold;
+      min-height: 2rem;
+      text-align: center;
+    }
+
+    #score-display {
+      font-size: 1rem;
+      color: #aaa;
+      text-align: center;
+    }
+
+    #score-display span {
+      color: #f0c040;
+      font-weight: bold;
+    }
+
+    .hint {
+      font-size: 0.85rem;
+      color: #888;
+      text-align: center;
+      max-width: 500px;
+    }
+
+    #difficulty {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    #difficulty select {
+      background: #2d2d2d;
+      color: #eee;
+      border: 1px solid #555;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🚗 Speed Guess</h1>
+
+<div id="track-container">
+  <div id="track">
+    <div class="road-line"></div>
+    <div id="disappear-marker"></div>
+    <div id="target"></div>
+    <div id="fog"></div>
+    <div id="car">🚗</div>
+    <div id="result-zone"></div>
+  </div>
+</div>
+
+<div id="controls">
+  <button id="stop-btn" disabled>STOP!</button>
+  <p class="hint">Press STOP when you think the car reaches the 🏁 flag</p>
+  <div id="difficulty">
+    <label for="diff-select">Speed:</label>
+    <select id="diff-select">
+      <option value="slow">Slow</option>
+      <option value="medium" selected>Medium</option>
+      <option value="fast">Fast</option>
+      <option value="random">Random</option>
+    </select>
+  </div>
+  <button id="start-btn">▶ Start</button>
+</div>
+
+<div id="feedback"></div>
+<div id="score-display">Round: <span id="round-num">0</span> &nbsp;|&nbsp; Best: <span id="best-score">—</span></div>
+
+<script>
+  const TRACK_WIDTH = 800;
+  const CAR_WIDTH = 40;
+
+  // Difficulty configs: speed in px/s
+  const SPEEDS = { slow: 120, medium: 200, fast: 320, random: 0 };
+
+  // Where car disappears (fraction of track) and target (fraction of track)
+  const DISAPPEAR_AT = 0.35;
+  const TARGET_AT = 0.82;
+
+  const car = document.getElementById('car');
+  const track = document.getElementById('track');
+  const stopBtn = document.getElementById('stop-btn');
+  const startBtn = document.getElementById('start-btn');
+  const feedback = document.getElementById('feedback');
+  const roundNum = document.getElementById('round-num');
+  const bestScore = document.getElementById('best-score');
+  const targetEl = document.getElementById('target');
+  const disappearMarker = document.getElementById('disappear-marker');
+  const resultZone = document.getElementById('result-zone');
+  const fogEl = document.getElementById('fog');
+  const diffSelect = document.getElementById('diff-select');
+
+  let animFrame;
+  let startTime;
+  let speed;
+  let carPos = 0;
+  let hidden = false;
+  let running = false;
+  let round = 0;
+  let best = null;
+
+  const targetPx = TRACK_WIDTH * TARGET_AT;
+  const disappearPx = TRACK_WIDTH * DISAPPEAR_AT;
+
+  // Position markers
+  targetEl.style.left = targetPx + 'px';
+  disappearMarker.style.left = disappearPx + 'px';
+
+  function getSpeed() {
+    const d = diffSelect.value;
+    if (d === 'random') return 80 + Math.random() * 320;
+    return SPEEDS[d];
+  }
+
+  function startGame() {
+    if (running) return;
+    running = true;
+    hidden = false;
+    carPos = 0;
+
+    car.style.left = '0px';
+    car.style.opacity = '1';
+    resultZone.style.display = 'none';
+    fogEl.style.display = 'none';
+    feedback.textContent = '';
+    feedback.style.color = '#eee';
+
+    startBtn.disabled = true;
+    stopBtn.disabled = false;
+    diffSelect.disabled = true;
+
+    speed = getSpeed();
+    startTime = performance.now();
+
+    round++;
+    roundNum.textContent = round;
+
+    animFrame = requestAnimationFrame(animate);
+  }
+
+  function animate(ts) {
+    const elapsed = (ts - startTime) / 1000;
+    carPos = speed * elapsed;
+
+    if (!hidden && carPos >= disappearPx) {
+      hidden = true;
+      car.style.opacity = '0';
+      fogEl.style.display = 'block';
+      fogEl.style.left = (disappearPx - 20) + 'px';
+    }
+
+    car.style.left = carPos + 'px';
+
+    // Car went past the end — user missed
+    if (carPos > TRACK_WIDTH + CAR_WIDTH) {
+      endGame(null);
+      return;
+    }
+
+    animFrame = requestAnimationFrame(animate);
+  }
+
+  function endGame(pressedAt) {
+    cancelAnimationFrame(animFrame);
+    running = false;
+
+    stopBtn.disabled = true;
+    startBtn.disabled = false;
+    diffSelect.disabled = false;
+
+    car.style.opacity = '0';
+    fogEl.style.display = 'none';
+
+    if (pressedAt === null) {
+      // Missed entirely
+      feedback.textContent = '💨 Too late! The car already passed.';
+      feedback.style.color = '#e74c3c';
+      return;
+    }
+
+    const error = pressedAt - targetPx; // positive = too late, negative = too early
+    const absError = Math.abs(error);
+
+    // Show where they pressed
+    resultZone.style.left = pressedAt + 'px';
+    resultZone.style.display = 'block';
+
+    // Score out of 100 (within 5px = 100, at 100px = 0)
+    const score = Math.max(0, Math.round(100 - (absError / 100) * 100));
+
+    if (best === null || score > best) {
+      best = score;
+      bestScore.textContent = best;
+    }
+
+    let msg, color;
+    if (absError < 8) {
+      msg = '🎯 Perfect! Dead on!';
+      color = '#2ecc71';
+    } else if (absError < 20) {
+      msg = error < 0 ? '⬅️ Just a hair early!' : '➡️ Just a hair late!';
+      color = '#2ecc71';
+    } else if (absError < 50) {
+      msg = error < 0 ? '⬅️ A bit early' : '➡️ A bit late';
+      color = '#f39c12';
+    } else if (absError < 100) {
+      msg = error < 0 ? '⬅️ Too early' : '➡️ Too late';
+      color = '#e67e22';
+    } else {
+      msg = error < 0 ? '⬅️ Way too early!' : '➡️ Way too late!';
+      color = '#e74c3c';
+    }
+
+    feedback.textContent = `${msg}  (score: ${score}/100, off by ${Math.round(absError)}px)`;
+    feedback.style.color = color;
+  }
+
+  stopBtn.addEventListener('click', () => {
+    if (!running) return;
+    endGame(carPos);
+  });
+
+  startBtn.addEventListener('click', startGame);
+
+  // Also allow spacebar
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
+      e.preventDefault();
+      if (running) {
+        endGame(carPos);
+      } else {
+        startGame();
+      }
+    }
+  });
+</script>
+</body>
+</html>
