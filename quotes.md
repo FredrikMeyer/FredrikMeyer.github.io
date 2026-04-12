@@ -12,3 +12,6 @@ When colleagues or friends say an absolute statement, I like to respond with thi
 
 > Only a Sith deals in absolutes.
 > <footer>Obi-Wan Kenobi</footer>
+
+> [...] in mathematics you don’t understand things. You just get used to them.
+> <footer>John von Neumann</footer>
