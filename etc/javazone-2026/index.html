@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaZone 2026 Planner</title>
+    <meta name="description" content="Upcoming JavaZone 2026 sessions with personal interest marking.">
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="hero">
+        <p class="hero__eyebrow">Personal agenda</p>
+        <h1>JavaZone 2026 Planner</h1>
+        <p class="hero__dek">
+          Upcoming sessions only. Times are shown in Oslo so the schedule reads like the conference program.
+        </p>
+        <div class="hero__counts">
+          <div class="hero__count">
+            <span class="hero__count-number" id="upcoming-count">0</span>
+            <span class="hero__count-label">shown</span>
+          </div>
+          <div class="hero__count">
+            <span class="hero__count-number" id="interested-count">0</span>
+            <span class="hero__count-label">marked</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="controls" aria-label="Filters">
+        <label class="search-field">
+          <span>Search</span>
+          <input id="search-input" type="search" placeholder="Title, speaker, room, keyword">
+        </label>
+
+        <div class="filter-row">
+          <label>
+            <span>Day</span>
+            <select id="day-filter">
+              <option value="all">All days</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Format</span>
+            <select id="format-filter">
+              <option value="all">All formats</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Language</span>
+            <select id="language-filter">
+              <option value="all">All languages</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="toggle-field" for="interested-only">
+          <input id="interested-only" type="checkbox">
+          <span>Interested only</span>
+        </label>
+      </section>
+
+      <section class="status-panel" aria-live="polite">
+        <p id="status-message">Loading upcoming sessions...</p>
+      </section>
+
+      <section id="schedule" class="schedule" aria-label="Upcoming sessions"></section>
+    </main>
+  </body>
+</html>
