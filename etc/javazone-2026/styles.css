@@ -413,6 +413,7 @@ select,
 }
 
 .interest-button,
+.skip-button,
 .details-button {
 	min-height: 2.75rem;
 	padding: 0.7rem 0.95rem;
@@ -425,6 +426,7 @@ select,
 	min-width: 7.4rem;
 	background: var(--ink);
 	color: #fff;
+	font-weight: 600;
 }
 
 .interest-button[aria-pressed="true"] {
@@ -432,16 +434,14 @@ select,
 }
 
 .skip-button {
-	min-width: 6rem;
-	border-color: rgba(24, 22, 20, 0.12);
-	background: transparent;
-	color: var(--muted);
+	min-width: 7.4rem;
+	background: #8f3d2e;
+	color: #fff;
+	font-weight: 600;
 }
 
 .skip-button[aria-pressed="true"] {
-	border-color: rgba(24, 22, 20, 0.08);
-	background: rgba(24, 22, 20, 0.08);
-	color: var(--ink);
+	background: #a24b38;
 }
 
 .details-button {
@@ -512,14 +512,15 @@ select:focus-visible {
 	}
 
 	.session__actions {
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-between;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		align-items: stretch;
 		gap: 0.75rem;
+		width: 100%;
 	}
 
-	.interest-button {
-		order: 2;
+	.session__actions button {
+		width: 100%;
 	}
 
 	.details-button {
