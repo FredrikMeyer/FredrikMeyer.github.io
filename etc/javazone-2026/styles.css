@@ -135,6 +135,40 @@ select,
 	display: block;
 }
 
+.controls__toggle {
+	display: none;
+	width: 100%;
+	min-height: 3rem;
+	padding: 0.8rem 0.95rem;
+	border: 1px solid var(--line);
+	border-radius: 14px;
+	background: rgba(255, 255, 255, 0.7);
+	color: var(--ink);
+	text-align: left;
+}
+
+.controls__toggle-label,
+.controls__toggle-summary {
+	display: block;
+}
+
+.controls__toggle-label {
+	font-weight: 600;
+}
+
+.controls__toggle-summary {
+	margin-top: 0.2rem;
+	color: var(--muted);
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 0.75rem;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.controls__panel {
+	margin-top: 0;
+}
+
 .controls span {
 	display: block;
 	margin-bottom: 0.35rem;
@@ -423,6 +457,22 @@ select:focus-visible {
 }
 
 @media (max-width: 39rem) {
+	.controls {
+		padding: 0.75rem;
+	}
+
+	.controls__toggle {
+		display: block;
+	}
+
+	.controls__panel {
+		margin-top: 0.8rem;
+	}
+
+	.controls__panel[hidden] {
+		display: none;
+	}
+
 	.filter-row {
 		grid-template-columns: 1fr;
 	}

@@ -4,11 +4,13 @@ const INTERESTED_STORAGE_KEY = "javazone-2026-interested";
 const SESSION_CACHE_KEY = "javazone-2026-session-cache";
 const SESSION_CACHE_SAVED_AT_KEY = "javazone-2026-session-cache-saved-at";
 const OSLO_TIME_ZONE = "Europe/Oslo";
+const MOBILE_MEDIA_QUERY = "(max-width: 39rem)";
 
 const state = {
 	sessions: [],
 	interested: loadInterested(),
 	expanded: new Set(),
+	controlsOpen: false,
 	sync: {
 		source: "live",
 		savedAt: null,
@@ -28,12 +30,17 @@ const elements = {
 	upcomingCount: document.querySelector("#upcoming-count"),
 	interestedCount: document.querySelector("#interested-count"),
 	syncMessage: document.querySelector("#sync-message"),
+	controlsToggle: document.querySelector("#controls-toggle"),
+	controlsPanel: document.querySelector("#controls-panel"),
+	controlsSummary: document.querySelector("#controls-summary"),
 	searchInput: document.querySelector("#search-input"),
 	dayFilter: document.querySelector("#day-filter"),
 	formatFilter: document.querySelector("#format-filter"),
 	languageFilter: document.querySelector("#language-filter"),
 	interestedOnly: document.querySelector("#interested-only"),
 };
+
+const mobileMedia = window.matchMedia(MOBILE_MEDIA_QUERY);
 
 const dayLabelFormatter = new Intl.DateTimeFormat("en-GB", {
 	weekday: "long",
@@ -71,6 +78,7 @@ const dayKeyFormatter = new Intl.DateTimeFormat("en-CA", {
 });
 
 registerServiceWorker();
+syncControlsForViewport();
 bindControls();
 loadSessions();
 
@@ -87,6 +95,11 @@ function registerServiceWorker() {
 }
 
 function bindControls() {
+	elements.controlsToggle.addEventListener("click", () => {
+		state.controlsOpen = !state.controlsOpen;
+		applyControlsVisibility();
+	});
+
 	elements.searchInput.addEventListener("input", (event) => {
 		state.filters.search = event.target.value.trim().toLowerCase();
 		render();
@@ -124,6 +137,23 @@ function bindControls() {
 			toggleExpanded(detailsButton.dataset.detailsId);
 		}
 	});
+
+	mobileMedia.addEventListener("change", () => {
+		syncControlsForViewport();
+	});
+
+	window.addEventListener(
+		"scroll",
+		() => {
+			if (!mobileMedia.matches || !state.controlsOpen || window.scrollY < 96) {
+				return;
+			}
+
+			state.controlsOpen = false;
+			applyControlsVisibility();
+		},
+		{ passive: true },
+	);
 }
 
 async function loadSessions() {
@@ -279,6 +309,7 @@ function render() {
 
 	elements.upcomingCount.textContent = String(visibleSessions.length);
 	elements.interestedCount.textContent = String(state.interested.size);
+	updateControlsSummary();
 
 	if (state.sessions.length === 0) {
 		elements.schedule.innerHTML = "";
@@ -310,6 +341,56 @@ function render() {
 			: `Showing ${visibleSessions.length} of ${state.sessions.length} upcoming sessions.`;
 	setStatus(summary);
 	setSyncMessage(buildSyncMessage());
+}
+
+function syncControlsForViewport() {
+	state.controlsOpen = !mobileMedia.matches;
+	applyControlsVisibility();
+}
+
+function applyControlsVisibility() {
+	const expanded = !mobileMedia.matches || state.controlsOpen;
+	elements.controlsToggle.setAttribute("aria-expanded", String(expanded));
+	elements.controlsPanel.hidden = !expanded;
+	updateControlsSummary();
+}
+
+function updateControlsSummary() {
+	const summaryParts = [];
+	if (state.filters.search) {
+		summaryParts.push("Search on");
+	}
+	if (state.filters.day !== "all") {
+		summaryParts.push("Day set");
+	}
+	if (state.filters.format !== "all") {
+		summaryParts.push("Format set");
+	}
+	if (state.filters.language !== "all") {
+		summaryParts.push("Language set");
+	}
+	if (state.filters.interestedOnly) {
+		summaryParts.push("Marked only");
+	}
+
+	if (!mobileMedia.matches) {
+		elements.controlsSummary.textContent = summaryParts.length
+			? summaryParts.join(" / ")
+			: "Ready";
+		return;
+	}
+
+	if (state.controlsOpen) {
+		elements.controlsSummary.textContent = summaryParts.length
+			? `Open / ${summaryParts.join(" / ")}`
+			: "Open";
+		return;
+	}
+
+	const closedSummary = summaryParts.length
+		? summaryParts.join(" / ")
+		: "Closed";
+	elements.controlsSummary.textContent = closedSummary;
 }
 
 function renderDayGroup(dayKey, sessions) {

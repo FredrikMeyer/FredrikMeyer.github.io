@@ -35,38 +35,51 @@
       </header>
 
       <section class="controls" aria-label="Filters">
-        <label class="search-field">
-          <span>Search</span>
-          <input id="search-input" type="search" placeholder="Title, speaker, room, keyword">
-        </label>
+        <button
+          class="controls__toggle"
+          id="controls-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="controls-panel"
+        >
+          <span class="controls__toggle-label">Search and filters</span>
+          <span class="controls__toggle-summary" id="controls-summary">Closed</span>
+        </button>
 
-        <div class="filter-row">
-          <label>
-            <span>Day</span>
-            <select id="day-filter">
-              <option value="all">All days</option>
-            </select>
+        <div class="controls__panel" id="controls-panel">
+          <label class="search-field">
+            <span>Search</span>
+            <input id="search-input" type="search" placeholder="Title, speaker, room, keyword">
           </label>
 
-          <label>
-            <span>Format</span>
-            <select id="format-filter">
-              <option value="all">All formats</option>
-            </select>
-          </label>
+          <div class="filter-row">
+            <label>
+              <span>Day</span>
+              <select id="day-filter">
+                <option value="all">All days</option>
+              </select>
+            </label>
 
-          <label>
-            <span>Language</span>
-            <select id="language-filter">
-              <option value="all">All languages</option>
-            </select>
+            <label>
+              <span>Format</span>
+              <select id="format-filter">
+                <option value="all">All formats</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Language</span>
+              <select id="language-filter">
+                <option value="all">All languages</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="toggle-field" for="interested-only">
+            <input id="interested-only" type="checkbox">
+            <span>Interested only</span>
           </label>
         </div>
-
-        <label class="toggle-field" for="interested-only">
-          <input id="interested-only" type="checkbox">
-          <span>Interested only</span>
-        </label>
       </section>
 
       <section class="status-panel" aria-live="polite">
