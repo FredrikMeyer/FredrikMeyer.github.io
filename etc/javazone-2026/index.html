@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JavaZone 2026 Planner</title>
     <meta name="description" content="Upcoming JavaZone 2026 sessions with personal interest marking.">
+    <meta name="theme-color" content="#f6f2e8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="JZ Planner">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
     <link rel="stylesheet" href="styles.css">
     <script defer src="app.js"></script>
   </head>
@@ -65,6 +71,7 @@
 
       <section class="status-panel" aria-live="polite">
         <p id="status-message">Loading upcoming sessions...</p>
+        <p id="sync-message"></p>
       </section>
 
       <section id="schedule" class="schedule" aria-label="Upcoming sessions"></section>

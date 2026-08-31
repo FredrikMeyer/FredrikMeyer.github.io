@@ -1,12 +1,18 @@
 const DATA_URL =
 	"https://sleepingpill.javazone.no/public/allSessions/javazone_2026";
 const INTERESTED_STORAGE_KEY = "javazone-2026-interested";
+const SESSION_CACHE_KEY = "javazone-2026-session-cache";
+const SESSION_CACHE_SAVED_AT_KEY = "javazone-2026-session-cache-saved-at";
 const OSLO_TIME_ZONE = "Europe/Oslo";
 
 const state = {
 	sessions: [],
 	interested: loadInterested(),
 	expanded: new Set(),
+	sync: {
+		source: "live",
+		savedAt: null,
+	},
 	filters: {
 		search: "",
 		day: "all",
@@ -21,6 +27,7 @@ const elements = {
 	schedule: document.querySelector("#schedule"),
 	upcomingCount: document.querySelector("#upcoming-count"),
 	interestedCount: document.querySelector("#interested-count"),
+	syncMessage: document.querySelector("#sync-message"),
 	searchInput: document.querySelector("#search-input"),
 	dayFilter: document.querySelector("#day-filter"),
 	formatFilter: document.querySelector("#format-filter"),
@@ -48,6 +55,14 @@ const timeFormatter = new Intl.DateTimeFormat("en-GB", {
 	timeZone: OSLO_TIME_ZONE,
 });
 
+const syncFormatter = new Intl.DateTimeFormat("en-GB", {
+	day: "numeric",
+	month: "short",
+	hour: "2-digit",
+	minute: "2-digit",
+	timeZone: OSLO_TIME_ZONE,
+});
+
 const dayKeyFormatter = new Intl.DateTimeFormat("en-CA", {
 	year: "numeric",
 	month: "2-digit",
@@ -55,8 +70,21 @@ const dayKeyFormatter = new Intl.DateTimeFormat("en-CA", {
 	timeZone: OSLO_TIME_ZONE,
 });
 
+registerServiceWorker();
 bindControls();
 loadSessions();
+
+function registerServiceWorker() {
+	if (!("serviceWorker" in navigator)) {
+		return;
+	}
+
+	window.addEventListener("load", () => {
+		navigator.serviceWorker
+			.register("./sw.js", { scope: "./" })
+			.catch((error) => console.error(error));
+	});
+}
 
 function bindControls() {
 	elements.searchInput.addEventListener("input", (event) => {
@@ -108,28 +136,49 @@ async function loadSessions() {
 		}
 
 		const payload = await response.json();
-		const sessions = Array.isArray(payload.sessions) ? payload.sessions : [];
-
-		state.sessions = sessions
-			.map(normalizeSession)
-			.filter((session) => session && isUpcoming(session))
-			.sort((left, right) => left.startDate - right.startDate);
-
-		state.interested = new Set(
-			Array.from(state.interested).filter((sessionId) =>
-				state.sessions.some((session) => session.id === sessionId),
-			),
-		);
-		saveInterested();
-		populateFilters(state.sessions);
-		render();
+		const savedAt = Date.now();
+		saveSessionPayload(payload, savedAt);
+		applyPayload(payload, { source: "live", savedAt });
 	} catch (error) {
 		console.error(error);
+		const cachedPayload = loadCachedSessionPayload();
+		if (cachedPayload) {
+			applyPayload(cachedPayload.payload, {
+				source: "cache",
+				savedAt: cachedPayload.savedAt,
+			});
+			return;
+		}
+
+		state.sync = {
+			source: "unavailable",
+			savedAt: null,
+		};
 		state.sessions = [];
 		populateFilters([]);
 		render();
 		setStatus("Could not load sessions from JavaZone right now.");
+		setSyncMessage("Connect to the internet and try again.");
 	}
+}
+
+function applyPayload(payload, sync) {
+	const sessions = Array.isArray(payload.sessions) ? payload.sessions : [];
+
+	state.sessions = sessions
+		.map(normalizeSession)
+		.filter((session) => session && isUpcoming(session))
+		.sort((left, right) => left.startDate - right.startDate);
+	state.sync = sync;
+
+	state.interested = new Set(
+		Array.from(state.interested).filter((sessionId) =>
+			state.sessions.some((session) => session.id === sessionId),
+		),
+	);
+	saveInterested();
+	populateFilters(state.sessions);
+	render();
 }
 
 function normalizeSession(session) {
@@ -239,12 +288,14 @@ function render() {
 		) {
 			setStatus("No upcoming sessions are available right now.");
 		}
+		setSyncMessage(buildSyncMessage());
 		return;
 	}
 
 	if (visibleSessions.length === 0) {
 		elements.schedule.innerHTML = "";
 		setStatus("No upcoming sessions match these filters.");
+		setSyncMessage(buildSyncMessage());
 		return;
 	}
 
@@ -258,6 +309,7 @@ function render() {
 			? `Showing ${visibleSessions.length} of ${state.sessions.length} upcoming sessions. ${interestedVisibleCount} of the shown sessions are marked.`
 			: `Showing ${visibleSessions.length} of ${state.sessions.length} upcoming sessions.`;
 	setStatus(summary);
+	setSyncMessage(buildSyncMessage());
 }
 
 function renderDayGroup(dayKey, sessions) {
@@ -445,6 +497,35 @@ function loadInterested() {
 	}
 }
 
+function saveSessionPayload(payload, savedAt) {
+	try {
+		localStorage.setItem(SESSION_CACHE_KEY, JSON.stringify(payload));
+		localStorage.setItem(SESSION_CACHE_SAVED_AT_KEY, String(savedAt));
+	} catch (error) {
+		console.error(error);
+	}
+}
+
+function loadCachedSessionPayload() {
+	try {
+		const rawPayload = localStorage.getItem(SESSION_CACHE_KEY);
+		if (!rawPayload) {
+			return null;
+		}
+
+		const payload = JSON.parse(rawPayload);
+		const rawSavedAt = localStorage.getItem(SESSION_CACHE_SAVED_AT_KEY);
+		const savedAt = rawSavedAt ? Number(rawSavedAt) : null;
+		return {
+			payload,
+			savedAt: Number.isFinite(savedAt) ? savedAt : null,
+		};
+	} catch (error) {
+		console.error(error);
+		return null;
+	}
+}
+
 function saveInterested() {
 	localStorage.setItem(
 		INTERESTED_STORAGE_KEY,
@@ -454,6 +535,30 @@ function saveInterested() {
 
 function setStatus(message) {
 	elements.status.textContent = message;
+}
+
+function setSyncMessage(message) {
+	elements.syncMessage.textContent = message;
+}
+
+function buildSyncMessage() {
+	if (state.sync.source === "cache") {
+		return state.sync.savedAt
+			? `Offline fallback. Showing the last saved schedule from ${formatSavedAt(state.sync.savedAt)} Oslo.`
+			: "Offline fallback. Showing the last saved schedule.";
+	}
+
+	if (state.sync.source === "live") {
+		return state.sync.savedAt
+			? `Live schedule. Saved for offline use at ${formatSavedAt(state.sync.savedAt)} Oslo.`
+			: "Live schedule. Saved for offline use.";
+	}
+
+	return "";
+}
+
+function formatSavedAt(timestamp) {
+	return syncFormatter.format(new Date(timestamp));
 }
 
 function valueOrEmpty(value) {
