@@ -1,4 +1,4 @@
-const CACHE_NAME = "javazone-2026-shell-v1";
+const CACHE_NAME = "javazone-2026-shell-v2";
 const APP_SCOPE = "/etc/javazone-2026/";
 const APP_SHELL = [
 	"./",
