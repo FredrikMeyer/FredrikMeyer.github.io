@@ -137,6 +137,7 @@ select,
 
 .controls__toggle {
 	display: none;
+	list-style: none;
 	width: 100%;
 	min-height: 3rem;
 	padding: 0.8rem 0.95rem;
@@ -144,7 +145,12 @@ select,
 	border-radius: 14px;
 	background: rgba(255, 255, 255, 0.7);
 	color: var(--ink);
+	cursor: pointer;
 	text-align: left;
+}
+
+.controls__toggle::-webkit-details-marker {
+	display: none;
 }
 
 .controls__toggle-label,
@@ -466,11 +472,12 @@ select:focus-visible {
 	}
 
 	.controls__panel {
+		display: none;
 		margin-top: 0.8rem;
 	}
 
-	.controls__panel[hidden] {
-		display: none;
+	.controls[open] .controls__panel {
+		display: block;
 	}
 
 	.filter-row {

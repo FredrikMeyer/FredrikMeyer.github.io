@@ -10,7 +10,6 @@ const state = {
 	sessions: [],
 	interested: loadInterested(),
 	expanded: new Set(),
-	controlsOpen: false,
 	sync: {
 		source: "live",
 		savedAt: null,
@@ -30,8 +29,7 @@ const elements = {
 	upcomingCount: document.querySelector("#upcoming-count"),
 	interestedCount: document.querySelector("#interested-count"),
 	syncMessage: document.querySelector("#sync-message"),
-	controlsToggle: document.querySelector("#controls-toggle"),
-	controlsPanel: document.querySelector("#controls-panel"),
+	controlsDisclosure: document.querySelector("#controls-disclosure"),
 	controlsSummary: document.querySelector("#controls-summary"),
 	searchInput: document.querySelector("#search-input"),
 	dayFilter: document.querySelector("#day-filter"),
@@ -95,9 +93,8 @@ function registerServiceWorker() {
 }
 
 function bindControls() {
-	elements.controlsToggle.addEventListener("click", () => {
-		state.controlsOpen = !state.controlsOpen;
-		applyControlsVisibility();
+	elements.controlsDisclosure.addEventListener("toggle", () => {
+		updateControlsSummary();
 	});
 
 	elements.searchInput.addEventListener("input", (event) => {
@@ -138,19 +135,27 @@ function bindControls() {
 		}
 	});
 
-	mobileMedia.addEventListener("change", () => {
+	const handleViewportChange = () => {
 		syncControlsForViewport();
-	});
+	};
+	if (typeof mobileMedia.addEventListener === "function") {
+		mobileMedia.addEventListener("change", handleViewportChange);
+	} else if (typeof mobileMedia.addListener === "function") {
+		mobileMedia.addListener(handleViewportChange);
+	}
 
 	window.addEventListener(
 		"scroll",
 		() => {
-			if (!mobileMedia.matches || !state.controlsOpen || window.scrollY < 96) {
+			if (
+				!mobileMedia.matches ||
+				!elements.controlsDisclosure.open ||
+				window.scrollY < 96
+			) {
 				return;
 			}
 
-			state.controlsOpen = false;
-			applyControlsVisibility();
+			elements.controlsDisclosure.open = false;
 		},
 		{ passive: true },
 	);
@@ -344,18 +349,12 @@ function render() {
 }
 
 function syncControlsForViewport() {
-	state.controlsOpen = !mobileMedia.matches;
-	applyControlsVisibility();
-}
-
-function applyControlsVisibility() {
-	const expanded = !mobileMedia.matches || state.controlsOpen;
-	elements.controlsToggle.setAttribute("aria-expanded", String(expanded));
-	elements.controlsPanel.hidden = !expanded;
+	elements.controlsDisclosure.open = !mobileMedia.matches;
 	updateControlsSummary();
 }
 
 function updateControlsSummary() {
+	const isOpen = elements.controlsDisclosure.open;
 	const summaryParts = [];
 	if (state.filters.search) {
 		summaryParts.push("Search on");
@@ -380,7 +379,7 @@ function updateControlsSummary() {
 		return;
 	}
 
-	if (state.controlsOpen) {
+	if (isOpen) {
 		elements.controlsSummary.textContent = summaryParts.length
 			? `Open / ${summaryParts.join(" / ")}`
 			: "Open";

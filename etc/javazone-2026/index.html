@@ -34,17 +34,11 @@
         </div>
       </header>
 
-      <section class="controls" aria-label="Filters">
-        <button
-          class="controls__toggle"
-          id="controls-toggle"
-          type="button"
-          aria-expanded="false"
-          aria-controls="controls-panel"
-        >
+      <details class="controls" id="controls-disclosure">
+        <summary class="controls__toggle" id="controls-toggle">
           <span class="controls__toggle-label">Search and filters</span>
           <span class="controls__toggle-summary" id="controls-summary">Closed</span>
-        </button>
+        </summary>
 
         <div class="controls__panel" id="controls-panel">
           <label class="search-field">
@@ -80,7 +74,7 @@
             <span>Interested only</span>
           </label>
         </div>
-      </section>
+      </details>
 
       <section class="status-panel" aria-live="polite">
         <p id="status-message">Loading upcoming sessions...</p>
