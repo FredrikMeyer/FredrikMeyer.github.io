@@ -338,6 +338,16 @@ select,
 	background: var(--teal);
 }
 
+.session--not-interested {
+	opacity: 0.72;
+	border-style: dashed;
+}
+
+.session--not-interested::before {
+	border-color: var(--muted);
+	background: var(--paper);
+}
+
 .session__lead {
 	min-width: 0;
 }
@@ -419,6 +429,19 @@ select,
 
 .interest-button[aria-pressed="true"] {
 	background: var(--teal);
+}
+
+.skip-button {
+	min-width: 6rem;
+	border-color: rgba(24, 22, 20, 0.12);
+	background: transparent;
+	color: var(--muted);
+}
+
+.skip-button[aria-pressed="true"] {
+	border-color: rgba(24, 22, 20, 0.08);
+	background: rgba(24, 22, 20, 0.08);
+	color: var(--ink);
 }
 
 .details-button {

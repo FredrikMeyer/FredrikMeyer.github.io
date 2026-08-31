@@ -1,6 +1,7 @@
 const DATA_URL =
 	"https://sleepingpill.javazone.no/public/allSessions/javazone_2026";
-const INTERESTED_STORAGE_KEY = "javazone-2026-interested";
+const LEGACY_INTERESTED_STORAGE_KEY = "javazone-2026-interested";
+const SESSION_STATE_STORAGE_KEY = "javazone-2026-session-state";
 const SESSION_CACHE_KEY = "javazone-2026-session-cache";
 const SESSION_CACHE_SAVED_AT_KEY = "javazone-2026-session-cache-saved-at";
 const OSLO_TIME_ZONE = "Europe/Oslo";
@@ -8,7 +9,7 @@ const MOBILE_MEDIA_QUERY = "(max-width: 39rem)";
 
 const state = {
 	sessions: [],
-	interested: loadInterested(),
+	sessionStates: loadSessionStates(),
 	expanded: new Set(),
 	sync: {
 		source: "live",
@@ -20,6 +21,7 @@ const state = {
 		format: "all",
 		language: "all",
 		interestedOnly: false,
+		showSkipped: false,
 	},
 };
 
@@ -36,6 +38,7 @@ const elements = {
 	formatFilter: document.querySelector("#format-filter"),
 	languageFilter: document.querySelector("#language-filter"),
 	interestedOnly: document.querySelector("#interested-only"),
+	showSkipped: document.querySelector("#show-skipped"),
 };
 
 const mobileMedia = window.matchMedia(MOBILE_MEDIA_QUERY);
@@ -122,10 +125,18 @@ function bindControls() {
 		render();
 	});
 
+	elements.showSkipped.addEventListener("change", (event) => {
+		state.filters.showSkipped = event.target.checked;
+		render();
+	});
+
 	elements.schedule.addEventListener("click", (event) => {
-		const interestButton = event.target.closest("[data-interest-id]");
-		if (interestButton) {
-			toggleInterested(interestButton.dataset.interestId);
+		const sessionActionButton = event.target.closest("[data-session-action]");
+		if (sessionActionButton) {
+			toggleSessionState(
+				sessionActionButton.dataset.sessionId,
+				sessionActionButton.dataset.sessionAction,
+			);
 			return;
 		}
 
@@ -206,12 +217,13 @@ function applyPayload(payload, sync) {
 		.sort((left, right) => left.startDate - right.startDate);
 	state.sync = sync;
 
-	state.interested = new Set(
-		Array.from(state.interested).filter((sessionId) =>
-			state.sessions.some((session) => session.id === sessionId),
+	const liveSessionIds = new Set(state.sessions.map((session) => session.id));
+	state.sessionStates = Object.fromEntries(
+		Object.entries(state.sessionStates).filter(([sessionId]) =>
+			liveSessionIds.has(sessionId),
 		),
 	);
-	saveInterested();
+	saveSessionStates();
 	populateFilters(state.sessions);
 	render();
 }
@@ -308,12 +320,14 @@ function updateSelect(selectElement, allLabel, options) {
 function render() {
 	const visibleSessions = state.sessions.filter(matchesFilters);
 	const groups = groupByDay(visibleSessions);
-	const interestedVisibleCount = visibleSessions.filter((session) =>
-		state.interested.has(session.id),
+	const interestedVisibleCount = visibleSessions.filter(
+		(session) => getSessionState(session.id) === "interested",
 	).length;
+	const interestedCount = countSessionsByState("interested");
+	const skippedCount = countSessionsByState("not-interested");
 
 	elements.upcomingCount.textContent = String(visibleSessions.length);
-	elements.interestedCount.textContent = String(state.interested.size);
+	elements.interestedCount.textContent = String(interestedCount);
 	updateControlsSummary();
 
 	if (state.sessions.length === 0) {
@@ -344,7 +358,11 @@ function render() {
 		interestedVisibleCount > 0
 			? `Showing ${visibleSessions.length} of ${state.sessions.length} upcoming sessions. ${interestedVisibleCount} of the shown sessions are marked.`
 			: `Showing ${visibleSessions.length} of ${state.sessions.length} upcoming sessions.`;
-	setStatus(summary);
+	const skippedSuffix =
+		skippedCount > 0 && !state.filters.showSkipped
+			? ` ${skippedCount} skipped ${skippedCount === 1 ? "talk is" : "talks are"} hidden.`
+			: "";
+	setStatus(`${summary}${skippedSuffix}`);
 	setSyncMessage(buildSyncMessage());
 }
 
@@ -370,6 +388,9 @@ function updateControlsSummary() {
 	}
 	if (state.filters.interestedOnly) {
 		summaryParts.push("Marked only");
+	}
+	if (state.filters.showSkipped) {
+		summaryParts.push("Skipped shown");
 	}
 
 	if (!mobileMedia.matches) {
@@ -417,10 +438,12 @@ function renderSession(session) {
 	const meta = [session.room, session.format, session.language].filter(Boolean);
 	const abstractId = `abstract-${session.id}`;
 	const expanded = state.expanded.has(session.id);
-	const interested = state.interested.has(session.id);
+	const sessionState = getSessionState(session.id);
+	const interested = sessionState === "interested";
+	const skipped = sessionState === "not-interested";
 
 	return `
-    <article class="session ${interested ? "session--interested" : ""}">
+    <article class="session ${interested ? "session--interested" : ""} ${skipped ? "session--not-interested" : ""}">
       <div class="session__lead">
         <span class="session__time">${escapeHtml(formatTimeRange(session.startDate, session.endDate))}</span>
         <h3 class="session__title">${escapeHtml(session.title)}</h3>
@@ -431,7 +454,8 @@ function renderSession(session) {
         ${session.abstract ? `<p class="session__abstract" id="${escapeAttribute(abstractId)}" ${expanded ? "" : "hidden"}>${escapeHtml(session.abstract)}</p>` : ""}
       </div>
       <div class="session__actions">
-        <button class="interest-button" type="button" data-interest-id="${escapeAttribute(session.id)}" aria-pressed="${interested}">${interested ? "Marked" : "Interested"}</button>
+        <button class="interest-button" type="button" data-session-id="${escapeAttribute(session.id)}" data-session-action="interested" aria-pressed="${interested}">${interested ? "Marked" : "Interested"}</button>
+        <button class="skip-button" type="button" data-session-id="${escapeAttribute(session.id)}" data-session-action="not-interested" aria-pressed="${skipped}">${skipped ? "Skipped" : "Skip"}</button>
       </div>
     </article>
   `;
@@ -456,7 +480,13 @@ function matchesFilters(session) {
 		return false;
 	}
 
-	if (state.filters.interestedOnly && !state.interested.has(session.id)) {
+	const sessionState = getSessionState(session.id);
+
+	if (!state.filters.showSkipped && sessionState === "not-interested") {
+		return false;
+	}
+
+	if (state.filters.interestedOnly && sessionState !== "interested") {
 		return false;
 	}
 
@@ -490,14 +520,18 @@ function groupByDay(sessions) {
 	return Array.from(groups.entries());
 }
 
-function toggleInterested(sessionId) {
-	if (state.interested.has(sessionId)) {
-		state.interested.delete(sessionId);
+function toggleSessionState(sessionId, requestedState) {
+	const currentState = getSessionState(sessionId);
+	const nextState =
+		currentState === requestedState ? "default" : requestedState;
+
+	if (nextState === "default") {
+		delete state.sessionStates[sessionId];
 	} else {
-		state.interested.add(sessionId);
+		state.sessionStates[sessionId] = nextState;
 	}
 
-	saveInterested();
+	saveSessionStates();
 	render();
 }
 
@@ -560,20 +594,38 @@ function uniqueBy(items, keySelector) {
 	});
 }
 
-function loadInterested() {
+function loadSessionStates() {
 	try {
-		const rawValue = localStorage.getItem(INTERESTED_STORAGE_KEY);
-		if (!rawValue) {
-			return new Set();
+		const rawStateValue = localStorage.getItem(SESSION_STATE_STORAGE_KEY);
+		if (rawStateValue) {
+			const parsed = JSON.parse(rawStateValue);
+			if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+				return Object.fromEntries(
+					Object.entries(parsed).filter(
+						([, value]) => value === "interested" || value === "not-interested",
+					),
+				);
+			}
 		}
 
-		const parsed = JSON.parse(rawValue);
-		return Array.isArray(parsed)
-			? new Set(parsed.filter((value) => typeof value === "string"))
-			: new Set();
+		const rawLegacyValue = localStorage.getItem(LEGACY_INTERESTED_STORAGE_KEY);
+		if (!rawLegacyValue) {
+			return {};
+		}
+
+		const parsedLegacy = JSON.parse(rawLegacyValue);
+		if (!Array.isArray(parsedLegacy)) {
+			return {};
+		}
+
+		return Object.fromEntries(
+			parsedLegacy
+				.filter((value) => typeof value === "string")
+				.map((value) => [value, "interested"]),
+		);
 	} catch (error) {
 		console.error(error);
-		return new Set();
+		return {};
 	}
 }
 
@@ -606,11 +658,21 @@ function loadCachedSessionPayload() {
 	}
 }
 
-function saveInterested() {
+function saveSessionStates() {
 	localStorage.setItem(
-		INTERESTED_STORAGE_KEY,
-		JSON.stringify(Array.from(state.interested)),
+		SESSION_STATE_STORAGE_KEY,
+		JSON.stringify(state.sessionStates),
 	);
+}
+
+function getSessionState(sessionId) {
+	return state.sessionStates[sessionId] || "default";
+}
+
+function countSessionsByState(expectedState) {
+	return Object.values(state.sessionStates).filter(
+		(sessionState) => sessionState === expectedState,
+	).length;
 }
 
 function setStatus(message) {
