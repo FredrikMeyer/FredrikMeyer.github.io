@@ -1,24 +1,14 @@
 # FredrikMeyer.github.io
 
-## rbenv
+## Mise
 
-Install `rbenv`:
-
-```
-brew install rbenv ruby-build
-```
-
-Latest Ruby version:
-
-```
-rbenv install 3.4.4
-```
+Se `mise.toml`.
 
 ## Build
 
 Local server:
 
-```
+```shell
 bundle exec jekyll serve
 ```
 
@@ -27,7 +17,7 @@ Often need to run `bundle install` first (for example if dependabot has updated 
 
 New post (example):
 
-```
+```shell
 bundle exec jekyll post emacs-python-venv
 ```
 

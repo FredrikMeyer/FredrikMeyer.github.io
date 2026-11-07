@@ -4,6 +4,7 @@ published: true
 title: Et streiftog blant utvalgte matematikere
 date: '2016-10-02 17:20:18 +0200'
 tags: norsk
+lang: nb
 ---
 
 Man tenker på matematikere som fjerne mennesker uten særlig stor grad kontakt med virkeligheten. De går rundt i sin egen verden, krasjer i lyktestolper mens de tenker på problemer, og bryr seg ikke om utseendet. Ingen stereotypi er ubegrunnet, og dette gjelder selvsagt også for matematikere.
