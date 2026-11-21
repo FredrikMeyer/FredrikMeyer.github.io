@@ -28,7 +28,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1.338.0
         with:
-          ruby-version: '3.4.4'
+          ruby-version: '3.4'
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
           cache-version: 3 # Increment this number if you need to re-download cached gems
       - name: Setup Pages
