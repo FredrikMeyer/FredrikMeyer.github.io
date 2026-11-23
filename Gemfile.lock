@@ -87,7 +87,7 @@ GEM
       rainbow (~> 3.0)
       ruby-vips (~> 2.2)
     json (2.21.2)
-    kramdown (2.5.2)
+    kramdown (2.6.1)
       rexml (>= 3.4.4)
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
@@ -175,7 +175,7 @@ DEPENDENCIES
   jekyll-sitemap
   jekyll-toc
   jekyll_picture_tag (~> 2.1)
-  kramdown (~> 2.5)
+  kramdown (~> 2.6)
   kramdown-parser-gfm (~> 1.1)
 
 BUNDLED WITH
